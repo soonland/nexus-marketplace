@@ -1,10 +1,22 @@
-# nexus-marketplace
+# nexus: from idea to merged PR, on GitHub
 
-Personal Claude Code marketplace.
+[![validate](https://github.com/soonland/nexus-marketplace/actions/workflows/validate.yml/badge.svg)](https://github.com/soonland/nexus-marketplace/actions/workflows/validate.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+A [Claude Code](https://claude.com/claude-code) plugin that turns a rough idea into a reviewed spec, one issue per package in dependency order, and a pull request that lists what is still left to check. Everything lands as ordinary GitHub issues and PRs, so your team sees and reviews it the usual way.
+
+- **Specs you can trust.** `feature-spec` asks one question at a time and keeps what *you* decided apart from what *it* assumed.
+- **Work split by package.** `plan-issues` creates one issue per affected package, in dependency order, linked to the spec.
+- **PRs that say what is left.** `implement-feature` plans, writes code and tests, and opens a PR with a "Remaining before merge" checklist instead of a vague caveat.
+- **Safe by default.** Issue text from strangers is treated as data, not instructions; generated CI follows your package manager (pnpm, npm, yarn, bun) and Python tooling (uv, poetry, pip and more).
+
+Real examples from a project that uses it: a [feature spec](https://github.com/soonland/nexus-workflow/issues/500) split into four package issues ([#501](https://github.com/soonland/nexus-workflow/issues/501), [#502](https://github.com/soonland/nexus-workflow/issues/502), [#503](https://github.com/soonland/nexus-workflow/issues/503), [#504](https://github.com/soonland/nexus-workflow/issues/504)), and a [PR](https://github.com/soonland/nexus-workflow/pull/499) it opened.
+
+Releases are listed in [CHANGELOG.md](CHANGELOG.md).
 
 ## Install
 
-From GitHub (anyone with access to the repo):
+From GitHub:
 
 ```
 /plugin marketplace add soonland/nexus-marketplace
