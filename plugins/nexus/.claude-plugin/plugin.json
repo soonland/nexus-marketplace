@@ -1,0 +1,8 @@
+{
+  "name": "nexus",
+  "version": "0.1.0",
+  "description": "Project workflow toolkit: skills for setup, repo standards, feature specs, issue planning, feature implementation, bug fixes and changelogs, plus MUI layout and Vitest testing agents.",
+  "author": {
+    "name": "soonland"
+  }
+}

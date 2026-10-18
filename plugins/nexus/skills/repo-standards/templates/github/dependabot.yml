@@ -1,0 +1,31 @@
+version: 2
+updates:
+  # Repeat this entry once per detected ecosystem and per directory that contains a manifest
+  # (see the ecosystem table in SKILL.md). Add a matching label for each workspace in a monorepo.
+  - package-ecosystem: '{{ECOSYSTEM}}'
+    directory: '{{DIRECTORY}}'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-patch']
+
+  # Always present, whatever the stack.
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    labels:
+      - dependencies
+    commit-message:
+      prefix: 'chore'
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-patch']

@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [{{DEFAULT_BRANCH}}]
+  pull_request:
+
+jobs:
+  ci:
+    name: Lint, Typecheck, Test & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # pnpm repos only. For npm/yarn remove this step and set `cache: npm` / `cache: yarn` below.
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: {{NODE_VERSION}}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Remove any step below whose script does not exist in package.json.
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Format check
+        run: npx prettier --check .
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Test with coverage (≥{{COVERAGE_THRESHOLD}}% threshold)
+        run: pnpm run test:coverage
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 14
+
+      - name: Build
+        run: pnpm run build

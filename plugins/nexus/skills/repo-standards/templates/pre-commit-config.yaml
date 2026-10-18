@@ -1,0 +1,16 @@
+repos:
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: {{CONVENTIONAL_PRE_COMMIT_TAG}}
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+
+  # Optional: whitespace and file hygiene
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: {{PRE_COMMIT_HOOKS_TAG}}
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+
+  # Add the repo's own formatter/linter hooks here (for example ruff, gofmt, rustfmt).

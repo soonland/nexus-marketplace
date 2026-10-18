@@ -1,0 +1,53 @@
+name: Claude Code Review
+
+# Opt-in: a PR is reviewed only while it carries the `claude-review` label. `labeled` is a trigger
+# so adding the label to an open PR starts a review; every later push is reviewed while the label
+# stays. Remove the label to stop.
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened, labeled]
+
+jobs:
+  claude-review:
+    # Owner-authored PRs only. Adding some other label (the event is `labeled`) must not re-run it.
+    if: |
+      github.event.pull_request.author_association == 'OWNER' &&
+      contains(github.event.pull_request.labels.*.name, 'claude-review') &&
+      (github.event.action != 'labeled' || github.event.label.name == 'claude-review')
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Claude Code Review
+        id: claude-review
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            Review pull request #${{ github.event.pull_request.number }} in ${{ github.repository }}.
+            The checkout is a detached HEAD, so `gh` cannot work out the PR from the current branch:
+            always pass the PR number explicitly, e.g. `gh pr diff ${{ github.event.pull_request.number }}`
+            and `gh pr comment ${{ github.event.pull_request.number }} --body "..."`.
+            Flag bugs, security issues, and deviations from the project conventions described in CLAUDE.md.
+            Post your findings as inline review comments on the relevant lines.
+            If the code looks good, post a brief summary comment on the PR confirming the review is complete.
+            Never submit a "Request Changes" review. Always use "Comment" only, never block the PR.
+
+          # Agent mode only starts the GitHub comment/inline-comment MCP servers when their tools
+          # are named here. --allowedTools replaces the effective tool list for this headless run,
+          # so the read tools the review needs must be listed too. Bash subcommands are pinned to
+          # read-only/comment-only forms because this job runs against untrusted PR content: a
+          # wildcard like `Bash(gh *)` would let a prompt injection in the diff reach gh pr merge,
+          # gh pr close or a git push.
+          claude_args: |
+            --allowedTools "Read,Grep,Glob,Bash(git diff:*),Bash(git log:*),Bash(git show:*),Bash(git status:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),mcp__github_inline_comment__create_inline_comment"
