@@ -1,6 +1,7 @@
 ---
 name: changelog
 description: Generate or update a CHANGELOG.md from merged PRs and git history. Use this skill when the user asks to "generate a changelog", "update the changelog", "what shipped in this release", or wants to summarise changes for a version.
+argument-hint: "[version]"
 ---
 
 # Changelog Skill

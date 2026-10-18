@@ -1,6 +1,7 @@
 ---
 name: plan-issues
 description: Break a feature spec issue into implementation issues, one per affected package, with parent link, tasks, and dependency order. Use when the user asks to "plan issue #N", "break down the spec", "split this into issues", or "create implementation issues" from a feature spec (such as one created by nexus:feature-spec).
+argument-hint: "[spec issue number or URL]"
 ---
 
 # Plan Issues Skill
