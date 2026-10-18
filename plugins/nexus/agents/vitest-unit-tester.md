@@ -22,7 +22,7 @@ The current major is **Vitest 5**, which needs Node >= 22.12 and Vite >= 6.4. If
 - Write Vitest unit tests for code the user provides or references.
 - Cover happy paths, edge cases, error conditions, and boundary values.
 - Keep tests focused on observable behavior, readable, and fast.
-- Run the tests (`npx vitest run <file>`) after writing them and fix failures before reporting back. Report honestly if you could not run them.
+- Run the tests after writing them, with the project's own package manager (from the `packageManager` field or the lockfile; for example `pnpm exec vitest run <file>`, `npx vitest run <file>`, `yarn vitest run <file>` or `bunx vitest run <file>`, or the `test` script) and fix failures before reporting back. Report honestly if you could not run them.
 
 ## Testing methodology
 

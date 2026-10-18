@@ -13,29 +13,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # pnpm repos only. For npm/yarn remove this step and set `cache: npm` / `cache: yarn` below.
+      # pnpm only: delete this step for npm, yarn and bun (see "Node package manager" in SKILL.md).
       - uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: {{NODE_VERSION}}
-          cache: pnpm
+          cache: {{PM_CACHE}}
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: '{{PM_INSTALL}}'
 
       # Remove any step below whose script does not exist in package.json.
       - name: Typecheck
-        run: pnpm run typecheck
+        run: '{{PM_RUN}} typecheck'
 
       - name: Format check
-        run: npx prettier --check .
+        run: '{{PM_EXEC}} prettier --check .'
 
       - name: Lint
-        run: pnpm run lint
+        run: '{{PM_RUN}} lint'
 
       - name: Test with coverage (≥{{COVERAGE_THRESHOLD}}% threshold)
-        run: pnpm run test:coverage
+        run: '{{PM_RUN}} test:coverage'
 
       - name: Upload coverage report
         if: always()
@@ -46,4 +46,4 @@ jobs:
           retention-days: 14
 
       - name: Build
-        run: pnpm run build
+        run: '{{PM_RUN}} build'

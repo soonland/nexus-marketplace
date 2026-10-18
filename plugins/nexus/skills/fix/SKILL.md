@@ -12,5 +12,5 @@ description: Fix a bug or failing build with a root-cause-first routine. Use whe
    - Stale state: build caches, lockfile or dependency mismatches, or environment variables that are missing or out of date.
 3. **Write a failing test first** where practical, so the fix has a regression test.
 4. **Implement the smallest fix** that addresses the root cause. Do not refactor unrelated code.
-5. **Verify** with the project's own commands: typecheck (for example `npx tsc --noEmit`), lint, and the relevant tests, then the full test suite. Report the actual results.
+5. **Verify** with the project's own commands: typecheck (the project's script, or the package manager's runner for `tsc --noEmit`, such as `pnpm exec tsc --noEmit`), lint, and the relevant tests, then the full test suite. Report the actual results.
 6. **Commit** using Conventional Commits (`fix(<scope>): <description>`) when the user wants it committed, ending the message with whatever attribution lines your environment instructs, if any.
