@@ -1,0 +1,42 @@
+name: Validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+
+      # Pinned on purpose; bump it deliberately. `validate` needs no login or secrets.
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code@2.1.302
+
+      - name: Validate marketplace and plugin manifests
+        run: claude plugin validate .
+
+      - name: Parse YAML and JSON files
+        run: |
+          ruby -ryaml -rjson -e '
+            bad = []
+            yaml = Dir.glob(".github/**/*.{yml,yaml}") + Dir.glob("plugins/**/templates/**/*.{yml,yaml}") + Dir.glob("plugins/**/templates/**/*pre-commit-config*")
+            json = Dir.glob(".claude-plugin/*.json") + Dir.glob("plugins/**/.claude-plugin/*.json") + Dir.glob("plugins/**/.mcp.json")
+            yaml.each { |f| begin; YAML.load_file(f); rescue => e; bad << "#{f}: #{e.message}"; end }
+            json.each { |f| begin; JSON.parse(File.read(f)); rescue => e; bad << "#{f}: #{e.message}"; end }
+            abort(bad.join("\n")) unless bad.empty?
+            puts "parsed #{yaml.size} yaml, #{json.size} json files"
+          '
