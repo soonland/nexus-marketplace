@@ -53,6 +53,17 @@ Detect the stack from manifest files at the repo root and in workspace directori
 | `docker-compose*.yml` | Docker Compose | none | `docker-compose` |
 | `*.tf` | Terraform | none | `terraform` |
 
+- **Node package manager:** pick it from the `packageManager` field in `package.json`, else from the lockfile (`pnpm-lock.yaml` pnpm, `package-lock.json` npm, `yarn.lock` yarn, `bun.lock` or `bun.lockb` bun), else ask. In a workspace, use the root's. Fill the Node CI placeholders from this table:
+
+  | Manager | `{{PM_INSTALL}}` | `{{PM_RUN}}` | `{{PM_EXEC}}` | `{{PM_CACHE}}` | Setup step |
+  |---|---|---|---|---|---|
+  | pnpm | `pnpm install --frozen-lockfile` | `pnpm run` | `pnpm exec` | `pnpm` | keep `pnpm/action-setup` |
+  | npm | `npm ci` | `npm run` | `npx` | `npm` | delete `pnpm/action-setup` |
+  | yarn (classic) | `yarn install --frozen-lockfile` | `yarn run` | `yarn` | `yarn` | delete `pnpm/action-setup` |
+  | yarn (berry, `.yarnrc.yml`) | `yarn install --immutable` | `yarn run` | `yarn` | `yarn` | delete `pnpm/action-setup`; add `corepack enable` before install |
+  | bun | `bun install --frozen-lockfile` | `bun run` | `bunx` | none (remove the `cache:` line) | replace `actions/setup-node` with `oven-sh/setup-bun` |
+
+  Use the same "exec" form wherever a command runs a local tool (husky, commitlint, lint-staged, prettier).
 - **CI:** use the matching template as a starting point. The templates are examples of the usual steps, not gospel: replace each command with the one the repo actually uses (read `Makefile`, `justfile`, `tox.ini`, `package.json` scripts, `CONTRIBUTING.md` and `CLAUDE.md`) and delete steps the repo has no tool for. For a stack with no template, write a workflow from the repo's own build and test commands using the same `on:` triggers and structure. Never invent a tool the repo does not use.
 - **Dependabot:** repeat the entry in `templates/github/dependabot.yml` once per ecosystem and per directory that holds a manifest (monorepo workspaces get their own entry and label). For `npm`, add `groups: dev-dependencies: dependency-type: development`. The `github-actions` entry is always kept, even when no other ecosystem is detected. Keep the `cooldown` block on every entry: it delays proposing a freshly published version, which is the cheap, stack-independent defence against a compromised release. It only covers Dependabot PRs; a hand-made bump in a PR is not checked.
 - **Commit tooling:** if a Node project, use commitlint + husky + lint-staged. For any other stack, use the `pre-commit` framework instead (see Step 4). A repo with both may use either; prefer husky when `package.json` is at the root.
@@ -97,7 +108,7 @@ git checkout -b chore/repo-standards
 ```
 
 For each selected file:
-1. Read the template and fill the placeholders (`{{DEFAULT_BRANCH}}`, `{{NODE_VERSION}}`, `{{PYTHON_VERSION}}`, `{{JAVA_VERSION}}`, `{{COVERAGE_THRESHOLD}}`, `{{CLAUDE_MODEL}}`, `{{COMPONENT_LABELS}}`, `{{CLAUDE_ACTION_SHA}}`, `{{ECOSYSTEM}}`, `{{DIRECTORY}}`).
+1. Read the template and fill the placeholders (`{{DEFAULT_BRANCH}}`, `{{NODE_VERSION}}`, `{{PYTHON_VERSION}}`, `{{JAVA_VERSION}}`, `{{COVERAGE_THRESHOLD}}`, `{{PM_INSTALL}}`, `{{PM_RUN}}`, `{{PM_EXEC}}`, `{{PM_CACHE}}`, `{{CLAUDE_MODEL}}`, `{{COMPONENT_LABELS}}`, `{{CLAUDE_ACTION_SHA}}`, `{{ECOSYSTEM}}`, `{{DIRECTORY}}`).
 2. Adapt to the repo, as described under "Stack detection": use the repo's real commands, remove steps it has no tool for, switch package manager and caching to match, and add `working-directory` or `--filter` handling for monorepos or multi-stack repos (one job per stack).
 3. If the target file already exists, show a diff and ask before replacing or merging. Never silently overwrite.
 4. For `uses:` lines, resolve the latest major of each action (`gh api repos/<owner>/<action>/releases/latest --jq .tag_name`) instead of trusting the version in the template.
@@ -112,10 +123,11 @@ Item-specific notes:
   ```
 - **Commit tooling, Node**: add dev dependencies with the repo's package manager (`@commitlint/cli @commitlint/config-conventional husky lint-staged`), add `"prepare": "husky"`, and a `lint-staged` block if missing that runs the repo's own formatter and linter on staged files (for example Prettier on `*.{ts,tsx,json,css,md}` and ESLint `--fix` on `*.{ts,tsx}`, only for tools the repo actually uses). Then create the hooks:
   ```bash
-  npx husky init
-  printf 'npx --no -- commitlint --edit $1\n' > .husky/commit-msg
-  printf 'npx lint-staged\n' > .husky/pre-commit
+  <exec> husky init
+  printf '<exec> commitlint --edit $1\n' > .husky/commit-msg
+  printf '<exec> lint-staged\n' > .husky/pre-commit
   ```
+  Replace `<exec>` with the package manager's runner from the table above (`pnpm exec`, `npx --no --` for npm, `yarn`, `bunx`).
 - **CLAUDE.md**: the goal is that nobody (including the owner, months later) has to remember how to start the project or which variables it needs.
   - If there is no `CLAUDE.md`, tell the user to run the built-in `/init` after this skill finishes (it analyses the code), then run this item again to check the section below.
   - If it exists but has no run/setup section, offer to add a `## Getting started` section built **from the repo's real files, never from guesses**: the install, dev, test, lint and build commands (from `package.json` scripts, `Makefile`, `justfile`, or the CI workflow); the required runtime version; services it needs (database, Docker compose, other apps in the stack) and how to start them; and the **environment variables** it expects. For variables, read `.env.example` / `.env.template`, config or schema files that validate env (for example a zod `env.ts`), and `docker-compose.yml`; list each name with a one-line purpose and whether it is required, and never write secret values. If a variable is read in code but absent from the example file, list it and suggest adding it to `.env.example`.

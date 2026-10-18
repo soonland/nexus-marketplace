@@ -92,7 +92,7 @@ Before writing a single line, read the relevant parts of the codebase:
 - Read every file you plan to modify. Never edit blind.
 - Note existing patterns (naming, imports, component structure) and follow them exactly.
 - Check for existing tests covering the areas you will touch.
-- Find the project's commands for test, lint, typecheck and build (`package.json` scripts, `Makefile`, `CLAUDE.md`). Use those exact commands in the steps below.
+- Find the project's commands for test, lint, typecheck and build (`package.json` scripts, `Makefile`, `CLAUDE.md`). Use those exact commands in the steps below, run through the repo's package manager (the `packageManager` field or the lockfile tells you which: pnpm, npm, yarn or bun), never a different one.
 
 ### Step 2 — Present the Plan
 
