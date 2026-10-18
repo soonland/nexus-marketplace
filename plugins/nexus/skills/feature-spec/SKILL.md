@@ -170,7 +170,7 @@ Use this structure for the GitHub Issue body. Omit optional sections that have n
 ```markdown
 # Feature Spec: <Feature Name>
 
-**Status:** Draft
+**Status:** Approved
 **Date:** <today's date>
 **Scope:** <component name | cross-cutting>
 
@@ -267,7 +267,7 @@ Use this structure for the GitHub Issue body. Omit optional sections that have n
 
 ## Rules
 
-- **Never create the issue before the user approves the full spec.**
+- **Never create the issue before the user approves the full spec.** Because of that, the published Status is `Approved`. Use `Draft` only when the user explicitly asks to publish an unapproved draft (`nexus:plan-issues` stops to ask before planning around a `Draft`).
 - **Decisions are the user's; assumptions are yours.** Never present a guess or a default you chose as something the user agreed to. Say your defaults out loud so they can reject them.
 - Always resolve open questions before publishing — a spec with unresolved questions that change what gets built is not ready. Minor ones the builder could settle go under Assumptions.
 - Keep requirements descriptive but implementation-neutral — don't prescribe how to build it, only what it must do. Technical choices appear only as user-stated Constraints.
