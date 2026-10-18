@@ -103,6 +103,8 @@ Write the plan as small, ordered tasks that someone with no context could carry 
 - Order tasks so the code builds and tests pass after every one of them.
 - Do not save the plan as a file in the repo; it lives in the conversation and the issue comment.
 
+**Check the plan against the spec before showing it.** Go through every must-have requirement, non-functional requirement, anti-goal and Decision in the spec (or the parent spec) and confirm the plan satisfies each one. If the plan cannot (for example the spec says "no flash on page load" but the only workable approach flashes in one case), do not bury it under RISKS / ASSUMPTIONS. Stop and put the conflict to the user first with `AskUserQuestion`: name the requirement, say why the plan cannot meet it, and offer the realistic options (a different approach with its cost, relaxing the requirement, or deferring that part to a follow-up). Build the plan from their answer, and record the outcome in the plan. If a requirement is relaxed or deferred, offer to add a short comment on the spec issue so the spec and the code do not drift apart. Nice-to-haves that are dropped may go under RISKS / ASSUMPTIONS without a question.
+
 Output a numbered implementation plan:
 
 ```
@@ -118,6 +120,8 @@ DB CHANGES: <list any schema/migration changes, or "none">
 NEW FILES: <list new files, or "none">
 TESTS: <list test files to add/update — required, not optional>
 
+SPEC CHECK: <"all must-haves and anti-goals met", or the conflicts the user resolved and how>
+
 RISKS / ASSUMPTIONS:
   - <any assumption made that the user should validate>
 ```
@@ -131,21 +135,21 @@ Once confirmed, post the plan as a comment on the issue, formatted as a task lis
 gh issue comment <issue-number> --repo "$REPO" --body "$(cat <<'EOF'
 ## Implementation Plan
 
-<paste the CHANGES / DB CHANGES / NEW FILES / TESTS / RISKS block here>
+<paste the CHANGES / DB CHANGES / NEW FILES / TESTS / SPEC CHECK / RISKS block here>
 
 ## Progress
 
-- [ ] Step 3 — Implement
-- [ ] Step 4 — Tests
-- [ ] Step 5 — Breaking Change Check
-- [ ] Step 6 — Lint & Typecheck
-- [ ] Step 7 — Smoke Test
-- [ ] Step 8 — PR created
+- [ ] Code written
+- [ ] Tests written and passing
+- [ ] Breaking-change check done
+- [ ] Lint and typecheck pass
+- [ ] Smoke tested
+- [ ] PR opened
 EOF
 )"
 ```
 
-After each step completes, edit the comment to check off the corresponding box:
+After each step completes (Step 3 ticks "Code written", Step 4 "Tests written and passing", and so on through Step 8 "PR opened"), edit the comment to check off the corresponding box:
 ```bash
 # Get the comment ID first (if not saved from creation)
 COMMENT_ID=$(gh api "repos/$REPO/issues/<issue-number>/comments" --jq 'last | .id')
@@ -223,7 +227,7 @@ Before smoke testing, run the project's full static analysis (lint, typecheck, a
 Run the app (dev server, CLI, or whatever the project provides) and verify the happy path end-to-end:
 - Walk through the primary user flow described in the spec's Requirements section.
 - Confirm each Success Metric from the spec is satisfied. For each metric, state explicitly whether it passes or fails.
-- If a metric cannot be verified locally (for example a contrast-ratio audit), note it as a follow-up in the PR.
+- If a metric or check could not be done or verified here (a smoke test you could not run, a contrast-ratio audit, a screen you could not open), do not just mention it. Write it down as a **remaining task**: one concrete action the user can carry out, saying what to do, where, and what a pass looks like. These go in the PR under "Remaining before merge" and in the issue comment (Step 8).
 
 ### Step 8 — PR
 
@@ -260,15 +264,21 @@ gh pr create \
 Closes #<issue-number>
 
 ## Test plan
-- [ ] Unit tests pass (coverage target met)
-- [ ] Typecheck and lint pass
-- [ ] Smoke tested: <describe what was manually verified>
+- [x] Unit tests pass (coverage target met)
+- [x] Typecheck and lint pass
+- [x] <anything else that was actually run and passed, such as the smoke test and what it covered>
+
+## Remaining before merge
+- [ ] <concrete task: what to do, where, and what a pass looks like, for example "Open the Instances and Settings screens with Dark selected and check that no text or control is unreadable">
+- [ ] <next task>
 
 ## Known limitations
-<deferred metrics, or anything explicitly out of scope — omit section if none>
+<deferred work or anything explicitly out of scope — omit section if none>
 EOF
 )"
 ```
+
+Only tick a Test plan box for something you actually ran and saw pass. Everything else that is still needed goes under "Remaining before merge" as an unticked task, never as a vague caveat; leave the section out only when nothing is outstanding. Do not write a verdict such as "not ready to merge": list the tasks and let the user decide.
 
 End the PR description with whatever attribution lines your environment instructs, if any.
 
@@ -278,7 +288,10 @@ Post a comment on the issue linking the PR:
 ```bash
 gh issue comment <issue-number> --repo "$REPO" --body "Implementation complete — PR: <pr-url>
 
-<one-line summary per concern group>"
+<one-line summary per concern group>
+
+Remaining before merge:
+- <the same tasks as in the PR, or "none">"
 ```
 
 **For a child issue, also update the parent.** If the parent spec has an `## Implementation issues` comment (created by `nexus:plan-issues`), add the PR link next to this child's line. Do not tick the box yet, because the work is only done when the PR is merged:
