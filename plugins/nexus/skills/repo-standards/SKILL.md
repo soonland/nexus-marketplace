@@ -25,7 +25,7 @@ Templates live in the `templates/` folder next to this `SKILL.md` (use this skil
 | 2 | **Issue templates**: feature spec, implementation plan, bug report, `config.yml` | `templates/github/ISSUE_TEMPLATE/` |
 | 3 | **CI** workflow for the detected stack: install, lint, format check, typecheck, test (with coverage where supported), build | `templates/ci/<stack>.yml` |
 | 4 | **Claude Code** workflows: `@claude` on issues and PRs (owner only) and label-gated PR review | `templates/github/workflows/claude.yml`, `claude-code-review.yml` |
-| 5 | **Dependabot**: weekly updates for every detected ecosystem plus GitHub Actions, patch bumps ignored | `templates/github/dependabot.yml` |
+| 5 | **Dependabot**: weekly updates for every detected ecosystem plus GitHub Actions, patch bumps ignored, new releases held back 3 days (`cooldown`) | `templates/github/dependabot.yml` |
 | 6 | **Commit tooling** (Conventional Commits enforced at commit time): commitlint + husky + lint-staged for Node, the `pre-commit` framework for everything else | `templates/commitlint.config.js` or `templates/pre-commit-config.yaml` |
 | 7 | **CLAUDE.md** with a "Getting started" section (how to install, run, test, build, and which environment variables are needed) | see below |
 | 8 | **Branch protection** (optional, never pre-selected): require PR + passing CI on the default branch | `gh api` ruleset |
@@ -54,7 +54,7 @@ Detect the stack from manifest files at the repo root and in workspace directori
 | `*.tf` | Terraform | none | `terraform` |
 
 - **CI:** use the matching template as a starting point. The templates are examples of the usual steps, not gospel: replace each command with the one the repo actually uses (read `Makefile`, `justfile`, `tox.ini`, `package.json` scripts, `CONTRIBUTING.md` and `CLAUDE.md`) and delete steps the repo has no tool for. For a stack with no template, write a workflow from the repo's own build and test commands using the same `on:` triggers and structure. Never invent a tool the repo does not use.
-- **Dependabot:** repeat the entry in `templates/github/dependabot.yml` once per ecosystem and per directory that holds a manifest (monorepo workspaces get their own entry and label). For `npm`, add `groups: dev-dependencies: dependency-type: development`. The `github-actions` entry is always kept, even when no other ecosystem is detected.
+- **Dependabot:** repeat the entry in `templates/github/dependabot.yml` once per ecosystem and per directory that holds a manifest (monorepo workspaces get their own entry and label). For `npm`, add `groups: dev-dependencies: dependency-type: development`. The `github-actions` entry is always kept, even when no other ecosystem is detected. Keep the `cooldown` block on every entry: it delays proposing a freshly published version, which is the cheap, stack-independent defence against a compromised release. It only covers Dependabot PRs; a hand-made bump in a PR is not checked.
 - **Commit tooling:** if a Node project, use commitlint + husky + lint-staged. For any other stack, use the `pre-commit` framework instead (see Step 4). A repo with both may use either; prefer husky when `package.json` is at the root.
 
 ---
