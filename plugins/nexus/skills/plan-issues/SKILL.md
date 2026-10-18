@@ -90,9 +90,15 @@ Create issues **in dependency order** (blockers first) so their numbers are know
 
 Ensure the labels exist first (`gh label list --repo "$REPO"`; create missing ones: `implementation` `0e8a16`, and a component label per package `ededed`).
 
+Titles contain text taken from the spec, so never put them inside double quotes in the command line (`$(...)`, backticks and `"` would be interpreted by the shell). Assign the title through a quoted heredoc first:
+
 ```bash
+TITLE=$(cat <<'EOF'
+<spec feature name> — <package>
+EOF
+)
 gh issue create --repo "$REPO" \
-  --title "<spec feature name> — <package>" \
+  --title "$TITLE" \
   --label implementation --label "<package>" \
   --assignee "<defaultAssignee or @me>" \
   --body "$(cat <<'EOF'

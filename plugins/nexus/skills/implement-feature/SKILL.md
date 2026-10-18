@@ -236,11 +236,17 @@ Before creating the PR, decide on the review label:
 
 Push the branch and create a pull request against `$DEFAULT`. Group the summary by concern (data, UI, API, tests, and so on), not per file. Include `Closes #<issue-number>` so GitHub auto-closes the issue on merge.
 
+The title comes from the issue, so assign it through a quoted heredoc instead of typing it inside double quotes (the shell would interpret `$(...)`, backticks and `"`):
+
 ```bash
+TITLE=$(cat <<'EOF'
+feat: <feature name>
+EOF
+)
 gh pr create \
   --repo "$REPO" \
   --base "$DEFAULT" \
-  --title "feat: <feature name>" \
+  --title "$TITLE" \
   "${LABEL_ARGS[@]}" \
   --body "$(cat <<'EOF'
 ## Summary

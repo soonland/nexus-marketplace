@@ -130,7 +130,7 @@ Then:
 - Ask for confirmation before creating the issue, naming `$REPO` in the prompt
 - Create the `feature-spec` label (color `#0075ca`) and a component label for the Scope answer (color `#ededed`) in `$REPO` if they don't already exist (`gh label create --repo "$REPO" ...`)
 - Create the GitHub Issue using `gh issue create --repo "$REPO"` with:
-  - Title: `Feature Spec: <Feature Name>`
+  - Title: `Feature Spec: <Feature Name>`. Pass it through a variable assigned from a quoted heredoc (`TITLE=$(cat <<'EOF'` ... `EOF` ... `)`), then `--title "$TITLE"`. Never type it inside double quotes, so `$(`, backticks or `"` in the name cannot be run by the shell.
   - Labels: `feature-spec` + the component label
   - Assignee: the requester's GitHub username (`--assignee <username>`)
   - Body: the spec content formatted as markdown (pass via HEREDOC)
