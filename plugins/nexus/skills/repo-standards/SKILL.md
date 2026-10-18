@@ -106,7 +106,7 @@ If the user asked only for an audit, stop here.
 
 ### Step 3 — Choose
 
-Use `AskUserQuestion` (multi-select) to let the user pick which missing or differing items to apply. Pre-select everything marked missing; leave "differs" items and item 8 unselected. Then ask for the few values you cannot infer:
+Use `AskUserQuestion` (multi-select) to let the user pick which missing or differing items to apply. Pre-select everything marked missing; leave "differs" items and item 8 unselected. **`AskUserQuestion` needs 2 to 4 distinct options per question** (a free-text "Other" is added for you), and one question with a single option makes the whole call fail. For a value that has one sensible default or needs free text (a URL, a username, a version), do not wrap it in a one-option question: state the default you will use and let the user correct it in plain text, or combine it with real alternatives in one question (for example "Use <default>" / "Leave blank"). Then ask for the few values you cannot infer:
 - Runtime version for CI (Node, Python, Java; default: the version the repo already pins, else the current LTS or stable release)
 - Coverage threshold, where the stack supports one (default: the project's existing one, else 75%)
 - For Claude workflows: the model (default `claude-sonnet-5-5`); access stays restricted to the repo owner

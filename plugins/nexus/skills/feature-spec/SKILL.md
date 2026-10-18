@@ -70,7 +70,7 @@ This is territory, not a script. Never read it out as a list of questions, and s
 - The details they care about
 - Decisions that have not been made yet, and whether each should be resolved now or deferred (for each one to resolve now, ask a targeted `AskUserQuestion` with clear options)
 
-Identity details that can be inferred are not conversation topics. Use `AskUserQuestion` for them: the part of the system the feature belongs to (options inferred from the repo or `components`, plus "cross-cutting") and the requester (GitHub username, default `gh api user --jq '.login'`).
+Identity details that can be inferred are not conversation topics. Use `AskUserQuestion` for them: the part of the system the feature belongs to (options inferred from the repo or `components`, plus "cross-cutting") and the requester (GitHub username, default `gh api user --jq '.login'`: state it and let the user correct it, since a one-option question is rejected). **`AskUserQuestion` needs 2 to 4 distinct options per question** (a free-text "Other" is added for you), and one question with a single option makes the whole call fail. For a value that has one sensible default or needs free text (a URL, a username, a version), do not wrap it in a one-option question: state the default you will use and let the user correct it in plain text, or combine it with real alternatives in one question (for example "Use <default>" / "Leave blank").
 
 ### Offer recon
 

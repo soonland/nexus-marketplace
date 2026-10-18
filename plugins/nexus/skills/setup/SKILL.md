@@ -18,7 +18,7 @@ Requires the `gh` CLI, authenticated.
 
 ## Protocol
 
-Use `AskUserQuestion` conversationally. Be idempotent: read existing files first and offer to keep or update existing values instead of overwriting them.
+Use `AskUserQuestion` conversationally. **`AskUserQuestion` needs 2 to 4 distinct options per question** (a free-text "Other" is added for you), and one question with a single option makes the whole call fail. For a value that has one sensible default or needs free text (a URL, a username, a version), do not wrap it in a one-option question: state the default you will use and let the user correct it in plain text, or combine it with real alternatives in one question (for example "Use <default>" / "Leave blank"). Be idempotent: read existing files first and offer to keep or update existing values instead of overwriting them.
 
 ### Step 1 — Detect the project
 
