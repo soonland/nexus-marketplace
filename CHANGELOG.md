@@ -12,9 +12,11 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Bug Fixes
 - **setup, repo-standards, feature-spec**: never ask a question with a single option, which made `AskUserQuestion` reject the whole call; state the default and let the user correct it instead (#17)
+- **feature-spec**: publish approved specs with `Status: Approved` instead of `Draft` (#21)
 
 ### Documentation
 - Add an MIT `LICENSE`, plugin metadata (`homepage`, `repository`, `license`, `keywords`) and a README that opens with what the plugin does (#16)
+- Link the live demo and its real issues and pull requests from the README (#20)
 
 ## [0.1.6] — 2026-10-18
 
