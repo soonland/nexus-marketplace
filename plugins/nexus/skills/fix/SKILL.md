@@ -1,6 +1,7 @@
 ---
 name: fix
 description: Fix a bug or failing build with a root-cause-first routine. Use when the user reports an error, a failing test, a broken build, or says "fix this".
+argument-hint: "[error message or failing test]"
 ---
 
 # Bug Fix Skill

@@ -1,6 +1,7 @@
 ---
 name: implement-feature
 description: Implement a feature from a GitHub Issue feature spec (such as one created by nexus:feature-spec) or from an implementation issue (such as one created by nexus:plan-issues). Use when the user asks to "implement issue #N", "build this spec", "implement the feature from the issue", or simply gives an issue number as a work order ("do 213", "start 217", "pr is merged, start 229").
+argument-hint: "[issue number or URL]"
 ---
 
 # Feature Implementation Skill

@@ -1,6 +1,7 @@
 ---
 name: repo-standards
 description: Audit, set up, or normalize a GitHub repository against the owner's standard configuration (labels, issue templates, stack-aware CI and Dependabot, Claude Code workflows, branch protection, commit tooling, CLAUDE.md). Use when the user asks to "set up this repo", "normalize the repo", "apply my usual config", "add CI / dependabot", or "audit repo config".
+argument-hint: "[audit | setup | normalize]"
 ---
 
 # Repo Standards Skill

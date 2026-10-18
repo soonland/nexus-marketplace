@@ -1,6 +1,7 @@
 ---
 name: feature-spec
 description: Discover what the user actually wants through a short conversation, then write it up as a decision-ready feature specification published as a GitHub Issue. Use when the user asks to "document a feature", "write a feature spec", "create a spec", "write up a feature", or wants to capture requirements for a new UI, API, or engine capability before implementing it.
+argument-hint: "[feature idea]"
 ---
 
 # Feature Spec Skill
