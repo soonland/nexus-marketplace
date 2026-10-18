@@ -53,7 +53,7 @@ A local path only works on your machine, so do not use it in a project's shared 
 | `mui-layout-designer` | Material UI (v9) layouts, using current APIs looked up through the MUI MCP server. |
 | `vitest-unit-tester` | Vitest (v5) unit tests, written for the installed version. |
 
-**MCP server:** the plugin bundles `@mui/mcp` (`.mcp.json`) for the MUI agent. It runs through `npx`, so Node is required.
+**MCP server:** the plugin bundles `@mui/mcp` (`.mcp.json`) for the MUI agent. It runs through `npx`, so Node is required. The version is pinned in `.mcp.json` on purpose (an unpinned `@latest` would run whatever is published); bump it deliberately.
 
 ## Workflow
 
