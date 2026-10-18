@@ -1,0 +1,42 @@
+name: Bug report
+description: A skill, agent, or the install is not behaving as documented
+labels: [bug]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: What is affected?
+      options:
+        - Install / marketplace
+        - nexus:setup
+        - nexus:repo-standards
+        - nexus:feature-spec
+        - nexus:plan-issues
+        - nexus:implement-feature
+        - nexus:fix
+        - nexus:changelog
+        - mui-layout-designer agent
+        - vitest-unit-tester agent
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: The prompt you gave, the repo type (stack, monorepo or not), and anything in `.claude/nexus.json` that matters.
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Plugin version (from `plugin.json` or the release), Claude Code version, OS.
+    validations:
+      required: true
