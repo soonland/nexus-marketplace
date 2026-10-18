@@ -16,24 +16,28 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '{{PYTHON_VERSION}}'
-          cache: pip # use `poetry` or `pipenv` to match the repo; for uv see astral-sh/setup-uv
+          cache: {{PY_CACHE}} # remove this line for uv and pdm
 
-      # Use the repo's own install command (pip, poetry install, uv sync, ...).
+      # Python tool setup (poetry, uv, pdm, pipenv, hatch): add the step from the "Python tooling"
+      # table in SKILL.md here. Plain pip needs none.
+
       - name: Install dependencies
-        run: pip install -e ".[dev]"
+        run: '{{PY_INSTALL}}'
 
-      # Remove any step below the repo does not use.
+      # Remove any step below the repo does not use, and swap in the linter, typechecker and test
+      # runner the repo actually has (see "Python tooling" in SKILL.md). {{PY_RUN}} is empty for pip.
       - name: Lint
-        run: ruff check .
+        run: '{{PY_RUN}}ruff check .'
 
       - name: Format check
-        run: ruff format --check .
+        run: '{{PY_RUN}}ruff format --check .'
 
       - name: Typecheck
-        run: mypy .
+        run: '{{PY_RUN}}mypy .'
 
       - name: Test with coverage (≥{{COVERAGE_THRESHOLD}}% threshold)
-        run: pytest --cov --cov-fail-under={{COVERAGE_THRESHOLD}}
+        run: '{{PY_RUN}}pytest --cov --cov-fail-under={{COVERAGE_THRESHOLD}}'
 
+      # Libraries only (a [build-system] table that the project publishes).
       - name: Build
-        run: python -m build
+        run: '{{PY_RUN}}python -m build'

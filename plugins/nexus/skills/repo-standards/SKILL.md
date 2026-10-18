@@ -64,6 +64,18 @@ Detect the stack from manifest files at the repo root and in workspace directori
   | bun | `bun install --frozen-lockfile` | `bun run` | `bunx` | none (remove the `cache:` line) | replace `actions/setup-node` with `oven-sh/setup-bun` |
 
   Use the same "exec" form wherever a command runs a local tool (husky, commitlint, lint-staged, prettier).
+- **Python tooling:** work out the environment manager first, then fill the Python CI placeholders. Detect it in this order, from the repo root (the workspace member's directory if it is a monorepo):
+
+  | Tool | Detect by | Setup step to add | `{{PY_INSTALL}}` | `{{PY_RUN}}` | `{{PY_CACHE}}` |
+  |---|---|---|---|---|---|
+  | uv | `uv.lock` | `astral-sh/setup-uv` (resolve its latest tag with `gh api repos/astral-sh/setup-uv/releases/latest --jq .tag_name`; set `enable-cache: true`) | `uv sync --locked --all-extras --dev` | `uv run ` | remove the `cache:` line |
+  | poetry | `poetry.lock` or `[tool.poetry]` | `pipx install poetry` before `setup-python` | `poetry install --no-interaction` | `poetry run ` | `poetry` |
+  | pdm | `pdm.lock` or `[tool.pdm]` | `pdm-project/setup-pdm` (resolve its latest tag the same way; `cache: true`) | `pdm install` | `pdm run ` | remove the `cache:` line |
+  | pipenv | `Pipfile.lock` or `Pipfile` | `pip install pipenv` | `pipenv install --dev --deploy` | `pipenv run ` | `pipenv` |
+  | hatch | `[tool.hatch.envs]` | `pip install hatch` | none (delete the install step) | `hatch run ` | `pip` |
+  | pip | `requirements*.txt`, or a `pyproject.toml` with no tool above | none | `pip install -r requirements.txt`, or `pip install -e ".[dev]"` if `pyproject.toml` declares a `dev` extra | empty | `pip` |
+
+  Then pick the steps from what the repo configures, not from the template: if `tox.ini`, `noxfile.py` or a `Makefile` already defines lint, type and test targets, call those instead of the individual tools. Otherwise read `pyproject.toml` and the config files: ruff (`[tool.ruff]`, `ruff.toml`), black, isort, flake8 or pylint (their config or dev dependencies) for lint and format; mypy (`[tool.mypy]`, `mypy.ini`) or pyright (`pyrightconfig.json`) for types; pytest (config or dependency), else `python -m unittest`, for tests. Keep a build step only for a package the project publishes (a `[build-system]` table). Take the Python version from `.python-version`, `requires-python` or the tool's own pin, and the coverage threshold from the repo's config when it has one.
 - **CI:** use the matching template as a starting point. The templates are examples of the usual steps, not gospel: replace each command with the one the repo actually uses (read `Makefile`, `justfile`, `tox.ini`, `package.json` scripts, `CONTRIBUTING.md` and `CLAUDE.md`) and delete steps the repo has no tool for. For a stack with no template, write a workflow from the repo's own build and test commands using the same `on:` triggers and structure. Never invent a tool the repo does not use.
 - **Dependabot:** repeat the entry in `templates/github/dependabot.yml` once per ecosystem and per directory that holds a manifest (monorepo workspaces get their own entry and label). For `npm`, add `groups: dev-dependencies: dependency-type: development`. The `github-actions` entry is always kept, even when no other ecosystem is detected. Keep the `cooldown` block on every entry: it delays proposing a freshly published version, which is the cheap, stack-independent defence against a compromised release. It only covers Dependabot PRs; a hand-made bump in a PR is not checked.
 - **Commit tooling:** if a Node project, use commitlint + husky + lint-staged. For any other stack, use the `pre-commit` framework instead (see Step 4). A repo with both may use either; prefer husky when `package.json` is at the root.
@@ -108,7 +120,7 @@ git checkout -b chore/repo-standards
 ```
 
 For each selected file:
-1. Read the template and fill the placeholders (`{{DEFAULT_BRANCH}}`, `{{NODE_VERSION}}`, `{{PYTHON_VERSION}}`, `{{JAVA_VERSION}}`, `{{COVERAGE_THRESHOLD}}`, `{{PM_INSTALL}}`, `{{PM_RUN}}`, `{{PM_EXEC}}`, `{{PM_CACHE}}`, `{{CLAUDE_MODEL}}`, `{{COMPONENT_LABELS}}`, `{{CLAUDE_ACTION_SHA}}`, `{{ECOSYSTEM}}`, `{{DIRECTORY}}`).
+1. Read the template and fill the placeholders (`{{DEFAULT_BRANCH}}`, `{{NODE_VERSION}}`, `{{PYTHON_VERSION}}`, `{{JAVA_VERSION}}`, `{{COVERAGE_THRESHOLD}}`, `{{PM_INSTALL}}`, `{{PM_RUN}}`, `{{PM_EXEC}}`, `{{PM_CACHE}}`, `{{PY_INSTALL}}`, `{{PY_RUN}}`, `{{PY_CACHE}}`, `{{CLAUDE_MODEL}}`, `{{COMPONENT_LABELS}}`, `{{CLAUDE_ACTION_SHA}}`, `{{ECOSYSTEM}}`, `{{DIRECTORY}}`).
 2. Adapt to the repo, as described under "Stack detection": use the repo's real commands, remove steps it has no tool for, switch package manager and caching to match, and add `working-directory` or `--filter` handling for monorepos or multi-stack repos (one job per stack).
 3. If the target file already exists, show a diff and ask before replacing or merging. Never silently overwrite.
 4. For `uses:` lines, resolve the latest major of each action (`gh api repos/<owner>/<action>/releases/latest --jq .tag_name`) instead of trusting the version in the template.
