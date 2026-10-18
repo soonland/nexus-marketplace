@@ -5,6 +5,15 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.1.4] — 2026-10-18
+
+### Improvements
+- **repo-standards**: the Dependabot template and skill hold freshly published versions back for 3 days (`cooldown`) (#10)
+- Add an eval suite (`plugins/nexus/evals`) covering the `feature-spec` opening and triage rules and the `fix` root-cause rule, runnable with `claude plugin eval` (#10)
+
+### Documentation
+- README "Getting started" section and instructions for running the evals in `CONTRIBUTING.md` (#10)
+
 ## [0.1.3] — 2026-10-18
 
 ### Bug Fixes
