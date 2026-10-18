@@ -1,2 +1,5 @@
 .DS_Store
 node_modules/
+
+# plugin eval results
+plugins/*/evals/results/

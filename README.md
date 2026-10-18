@@ -26,6 +26,18 @@ To test changes before pushing, add the working copy instead:
 
 A local path only works on your machine, so do not use it in a project's shared settings.
 
+## Getting started
+
+In the project repo you want to work on (the skills act on the repo of the folder Claude Code runs in):
+
+1. `/nexus:setup` once per repo. It writes `.claude/nexus.json`, creates the labels, and offers to enable the plugin for teammates.
+2. `/nexus:feature-spec` and describe what you want. It asks one question at a time and publishes the spec as a GitHub Issue after you approve it.
+3. `/nexus:plan-issues <spec number>` only if the spec touches several packages. It creates one issue per package, in dependency order.
+4. Say "do 123" (or `/nexus:implement-feature 123`) for an issue. It plans, asks whether to use subagents, writes code and tests, and opens a PR with a list of anything still to check before merging.
+5. After a PR merges, run `/nexus:plan-issues <spec number>` again to tick finished issues and close the spec. `/nexus:changelog` helps when you release.
+
+Optional: `/nexus:repo-standards` audits or sets up labels, issue templates, CI, Dependabot, commit tooling and a "Getting started" section in the project's `CLAUDE.md`.
+
 ## Plugins
 
 | Plugin | What it is |

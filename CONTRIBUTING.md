@@ -32,6 +32,8 @@ plugins/nexus/.mcp.json                    bundled MCP servers
 claude plugin validate .
 ```
 
+Skill behaviour is covered by a small eval suite in `plugins/nexus/evals/`. Run it from `plugins/nexus` with `claude plugin eval .` (add `--runs 1 --ablation none` for a cheap pass). It runs real Claude sessions on your own usage, so it is not part of CI. Add a case when you add or change a rule a skill must follow.
+
 Then try the change for real: add your working copy with `/plugin marketplace add /path/to/nexus-marketplace`, install `nexus@nexus-marketplace`, and run the skill on a scratch repo.
 
 ## Pull requests
