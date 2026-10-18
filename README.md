@@ -93,5 +93,5 @@ All of it is optional. Skills detect the repo with `gh` and ask when something i
 1. For a new plugin, create `plugins/<name>/.claude-plugin/plugin.json` (`name`, `version`, `description`, `author`) and register it in `.claude-plugin/marketplace.json` under `plugins` with `name`, `source` (`./plugins/<name>`) and `description`.
 2. Add skills in `skills/<skill>/SKILL.md` and agents in `agents/<agent>.md`. Plugins also support `commands/`, `hooks/hooks.json`, and `.mcp.json`.
 3. Keep skills project-neutral: no hard-coded repos, project boards, package managers, or user paths.
-4. Bump `version` in `plugin.json` when you publish a change.
+4. Bump `version` in `plugin.json` and add a `CHANGELOG.md` entry in a release PR, not in the feature PR (see `CONTRIBUTING.md`).
 5. Validate: `claude plugin validate .`
