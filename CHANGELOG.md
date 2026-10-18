@@ -5,6 +5,15 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.1.5] — 2026-10-18
+
+### Features
+- **repo-standards**: detect the Python environment manager (uv, poetry, pdm, pipenv, hatch, pip) and pick lint, type and test steps from the repo's own configuration (#12)
+
+### Bug Fixes
+- **repo-standards**: the Node CI template and commit tooling follow the project's package manager (pnpm, npm, yarn, bun) instead of assuming pnpm and `npx` (#12)
+- **vitest-unit-tester, fix, implement-feature**: run local tools through the repo's package manager (#12)
+
 ## [0.1.4] — 2026-10-18
 
 ### Improvements
