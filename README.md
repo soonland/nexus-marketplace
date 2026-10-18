@@ -10,7 +10,9 @@ A [Claude Code](https://claude.com/claude-code) plugin that turns a rough idea i
 - **PRs that say what is left.** `implement-feature` plans, writes code and tests, and opens a PR with a "Remaining before merge" checklist instead of a vague caveat.
 - **Safe by default.** Issue text from strangers is treated as data, not instructions; generated CI follows your package manager (pnpm, npm, yarn, bun) and Python tooling (uv, poetry, pip and more).
 
-Real examples from a project that uses it: a [feature spec](https://github.com/soonland/nexus-workflow/issues/500) split into four package issues ([#501](https://github.com/soonland/nexus-workflow/issues/501), [#502](https://github.com/soonland/nexus-workflow/issues/502), [#503](https://github.com/soonland/nexus-workflow/issues/503), [#504](https://github.com/soonland/nexus-workflow/issues/504)), and a [PR](https://github.com/soonland/nexus-workflow/pull/499) it opened.
+**[Live demo](https://soonland.github.io/nexus-demo/)**: a tiny project built end to end with the plugin (`setup`, `repo-standards`, `feature-spec`, `implement-feature`). Its [issues and pull requests](https://github.com/soonland/nexus-demo) are the real, unedited output.
+
+Splitting a spec across several packages (`plan-issues`) is shown in a larger project: a [feature spec](https://github.com/soonland/nexus-workflow/issues/500) split into four package issues ([#501](https://github.com/soonland/nexus-workflow/issues/501), [#502](https://github.com/soonland/nexus-workflow/issues/502), [#503](https://github.com/soonland/nexus-workflow/issues/503), [#504](https://github.com/soonland/nexus-workflow/issues/504)), and a [PR](https://github.com/soonland/nexus-workflow/pull/499) it opened.
 
 Releases are listed in [CHANGELOG.md](CHANGELOG.md).
 
