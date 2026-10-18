@@ -39,7 +39,16 @@ Then try the change for real: add your working copy with `/plugin marketplace ad
 - Branch from `main`; `main` only accepts changes through a PR.
 - Use [Conventional Commits](https://www.conventionalcommits.org/) for titles (`feat(plan-issues): ...`, `fix(repo-standards): ...`). The changelog is built from them.
 - Fill in the PR template. Say what you tested and on what kind of repo.
+- Do not bump `version` or edit `CHANGELOG.md` in a feature PR. Both happen in the release PR (see below).
 - Anything that adds an MCP server, hook, or shell command is reviewed line by line, since it runs with the user's permissions once installed.
+
+## Releases
+
+A release is one PR, made by the maintainer after feature PRs have merged:
+
+1. Branch from `main` and bump `version` in `plugins/nexus/.claude-plugin/plugin.json`.
+2. Add the changelog entry (`nexus:changelog` drafts it from the merged PRs since the last tag).
+3. Merge the PR, then tag `v<version>` on `main` and publish the GitHub release.
 
 ## Security
 

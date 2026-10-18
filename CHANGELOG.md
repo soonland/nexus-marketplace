@@ -5,6 +5,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.1.3] — 2026-10-18
+
+### Bug Fixes
+- **implement-feature**: check the plan against the spec's must-haves, non-functional requirements, anti-goals and decisions, and ask the user when one cannot be met instead of listing it as a risk (#8)
+- **implement-feature**: list unfinished checks as concrete "Remaining before merge" tasks in the PR and the issue comment, and tick Test plan boxes only for checks that actually ran (#8)
+- **implement-feature**: use plain wording for the issue's progress checklist (#8)
+
 ## [0.1.2] — 2026-10-18
 
 ### Bug Fixes
