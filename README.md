@@ -31,7 +31,6 @@ A local path only works on your machine, so do not use it in a project's shared 
 | Plugin | What it is |
 |---|---|
 | `nexus` | Project workflow toolkit: skills for the spec-to-release workflow, plus two agents. |
-| `example-plugin` | Minimal template to copy when starting a new plugin. Safe to delete. |
 
 ### `nexus`
 
@@ -91,7 +90,7 @@ All of it is optional. Skills detect the repo with `gh` and ask when something i
 
 ## Add a plugin or skill
 
-1. For a new plugin, copy `plugins/example-plugin` to `plugins/<name>`, edit its `.claude-plugin/plugin.json`, and register it in `.claude-plugin/marketplace.json` under `plugins`.
+1. For a new plugin, create `plugins/<name>/.claude-plugin/plugin.json` (`name`, `version`, `description`, `author`) and register it in `.claude-plugin/marketplace.json` under `plugins` with `name`, `source` (`./plugins/<name>`) and `description`.
 2. Add skills in `skills/<skill>/SKILL.md` and agents in `agents/<agent>.md`. Plugins also support `commands/`, `hooks/hooks.json`, and `.mcp.json`.
 3. Keep skills project-neutral: no hard-coded repos, project boards, package managers, or user paths.
 4. Bump `version` in `plugin.json` when you publish a change.

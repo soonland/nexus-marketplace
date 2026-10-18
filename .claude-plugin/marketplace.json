@@ -8,11 +8,6 @@
   },
   "plugins": [
     {
-      "name": "example-plugin",
-      "source": "./plugins/example-plugin",
-      "description": "Example plugin with a single skill. Copy it to start a new one."
-    },
-    {
       "name": "nexus",
       "source": "./plugins/nexus",
       "description": "Project workflow toolkit: skills for setup, repo standards, feature specs, issue planning, feature implementation, bug fixes and changelogs, plus MUI layout and Vitest testing agents."
