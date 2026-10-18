@@ -22,20 +22,20 @@ jobs:
           cache: {{PM_CACHE}}
 
       - name: Install dependencies
-        run: {{PM_INSTALL}}
+        run: '{{PM_INSTALL}}'
 
       # Remove any step below whose script does not exist in package.json.
       - name: Typecheck
-        run: {{PM_RUN}} typecheck
+        run: '{{PM_RUN}} typecheck'
 
       - name: Format check
-        run: {{PM_EXEC}} prettier --check .
+        run: '{{PM_EXEC}} prettier --check .'
 
       - name: Lint
-        run: {{PM_RUN}} lint
+        run: '{{PM_RUN}} lint'
 
       - name: Test with coverage (≥{{COVERAGE_THRESHOLD}}% threshold)
-        run: {{PM_RUN}} test:coverage
+        run: '{{PM_RUN}} test:coverage'
 
       - name: Upload coverage report
         if: always()
@@ -46,4 +46,4 @@ jobs:
           retention-days: 14
 
       - name: Build
-        run: {{PM_RUN}} build
+        run: '{{PM_RUN}} build'
