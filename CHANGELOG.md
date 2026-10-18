@@ -1,0 +1,39 @@
+# Changelog
+
+All notable changes to this project will be documented here.
+Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+---
+
+## [0.1.2] — 2026-10-18
+
+### Bug Fixes
+- **feature-spec, plan-issues, implement-feature**: pass issue and PR titles through a quoted heredoc, so `$(...)`, backticks or `"` in a name can't run in the shell (#4)
+
+### Improvements
+- Add a `validate` workflow that runs `claude plugin validate .` and parses the YAML and JSON files on PRs and `main` (#3)
+- Add Dependabot for the SHA-pinned GitHub Actions (#4)
+
+## [0.1.1] — 2026-10-18
+
+### Features
+- **plan-issues, implement-feature**: check who wrote an issue and stop for confirmation unless the author is the owner, a member or collaborator, or the current `gh` user; issue text is treated as untrusted (#2)
+
+### Bug Fixes
+- **mcp**: pin `@mui/mcp` to 0.1.7 instead of `@latest` (#2)
+
+### Documentation
+- Add `CONTRIBUTING.md`, bug and feature issue forms, and a pull request template (#1)
+
+## [0.1.0] — 2026-10-18
+
+### Features
+- Initial release of the `nexus` plugin and the `nexus-marketplace` marketplace
+- **Skills**: `setup`, `repo-standards`, `feature-spec`, `plan-issues`, `implement-feature`, `fix`, `changelog`
+- **Agents**: `mui-layout-designer` (MUI v9) and `vitest-unit-tester` (Vitest 5), plus a bundled `@mui/mcp` server
+
+### Bug Fixes
+- **repo-standards**: gate the `@claude` workflow on the author of the triggering content per event type, and pin `claude-code-action` by commit SHA
+
+### Improvements
+- Remove the placeholder `example-plugin`
