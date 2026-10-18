@@ -5,6 +5,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.1.6] — 2026-10-18
+
+### Bug Fixes
+- **repo-standards**: strip template-only comments and placeholder quotes from generated files (#14)
+- **repo-standards**: offer a minimal `CLAUDE.md` with the Getting started section when none exists, instead of only pointing to `/init` (#14)
+- **repo-standards**: the final report lists concrete "Remaining before this is live" tasks (#14)
+
 ## [0.1.5] — 2026-10-18
 
 ### Features
