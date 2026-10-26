@@ -5,6 +5,15 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.1.8] — 2026-10-26
+
+### Improvements
+- **repo-standards**: the generated `claude.yml` and `claude-code-review.yml` pin `actions/checkout` by commit SHA, like `claude-code-action` (#22)
+- Add evals for `plan-issues` (a one-package spec is not split) and `implement-feature` (an outside author's issue is flagged and its embedded commands are not followed) (#22)
+
+### Documentation
+- README: add an "Updating" section covering auto-update, manual update and watching releases (#22)
+
 ## [0.1.7] — 2026-10-18
 
 ### Features
