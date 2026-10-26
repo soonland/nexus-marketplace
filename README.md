@@ -27,7 +27,14 @@ From GitHub:
 
 To get it for a whole team without everyone typing this, run `nexus:setup` in the project. It adds the marketplace and the plugin to the project's `.claude/settings.json`, and Claude Code prompts teammates to install them when they trust the folder. For a private repo, each person needs GitHub access (`gh auth login` or an SSH key) so Claude Code can clone it.
 
-Update after changes are pushed: `/plugin marketplace update nexus-marketplace`.
+### Updating
+
+Third-party marketplaces do not update themselves by default. Either:
+
+- turn on auto-update: `/plugin` → **Marketplaces** → `nexus-marketplace` → **Enable auto-update**; or
+- update by hand: `/plugin marketplace update nexus-marketplace` (or `claude plugin update nexus@nexus-marketplace` from a shell).
+
+To hear about new versions, use **Watch → Custom → Releases** on this repo. Each release lists what changed (see also [CHANGELOG.md](CHANGELOG.md)).
 
 ### Local development
 
