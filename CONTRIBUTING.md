@@ -20,10 +20,10 @@ Thanks for taking an interest. This is a personal marketplace, so I keep the sco
 
 ```
 .claude-plugin/marketplace.json            marketplace manifest
-plugins/nexus/.claude-plugin/plugin.json   plugin manifest (version lives here)
-plugins/nexus/skills/<name>/SKILL.md       one skill per folder
-plugins/nexus/agents/<name>.md             agents
-plugins/nexus/.mcp.json                    bundled MCP servers
+plugins/<plugin>/.claude-plugin/plugin.json plugin manifest (version lives here)
+plugins/nexus/skills/<name>/SKILL.md       one skill per folder (core plugin stays stack-neutral)
+plugins/<plugin>/agents/<name>.md          agents
+plugins/<plugin>/.mcp.json                 bundled MCP servers (add-on plugins only)
 ```
 
 ## Checks

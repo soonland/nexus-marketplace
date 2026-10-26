@@ -1,7 +1,7 @@
 {
   "name": "nexus",
   "version": "0.1.8",
-  "description": "Project workflow toolkit: skills for setup, repo standards, feature specs, issue planning, feature implementation, bug fixes and changelogs, plus MUI layout and Vitest testing agents.",
+  "description": "Project workflow toolkit for any stack: skills for setup, repo standards, feature specs, issue planning, feature implementation, bug fixes and changelogs.",
   "author": {
     "name": "soonland"
   },
@@ -15,8 +15,6 @@
     "pull-requests",
     "feature-spec",
     "changelog",
-    "repo-standards",
-    "mui",
-    "vitest"
+    "repo-standards"
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "name": "nexus-mui",
+  "version": "0.1.0",
+  "description": "Optional add-on for nexus: a Material UI layout agent that looks up current APIs through the bundled MUI MCP server. Needs Node (npx).",
+  "author": {
+    "name": "soonland"
+  },
+  "homepage": "https://github.com/soonland/nexus-marketplace",
+  "repository": "https://github.com/soonland/nexus-marketplace",
+  "license": "MIT",
+  "keywords": ["mui", "material-ui", "react", "layout"]
+}

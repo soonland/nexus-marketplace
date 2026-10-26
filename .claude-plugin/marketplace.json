@@ -10,7 +10,17 @@
     {
       "name": "nexus",
       "source": "./plugins/nexus",
-      "description": "Project workflow toolkit: skills for setup, repo standards, feature specs, issue planning, feature implementation, bug fixes and changelogs, plus MUI layout and Vitest testing agents."
+      "description": "Project workflow toolkit for any stack: skills for setup, repo standards, feature specs, issue planning, feature implementation, bug fixes and changelogs."
+    },
+    {
+      "name": "nexus-mui",
+      "source": "./plugins/nexus-mui",
+      "description": "Optional add-on for nexus: Material UI layout agent using the MUI MCP server (needs Node)."
+    },
+    {
+      "name": "nexus-vitest",
+      "source": "./plugins/nexus-vitest",
+      "description": "Optional add-on for nexus: Vitest unit-test agent."
     }
   ]
 }
