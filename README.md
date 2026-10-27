@@ -78,6 +78,7 @@ Optional: `/nexus:repo-standards` audits or sets up labels, issue templates, CI,
 | [`feature-spec`](docs/feature-spec.md) | Short discovery conversation (one question at a time, playback, builder check) that publishes a feature spec as a GitHub Issue. |
 | [`plan-issues`](docs/plan-issues.md) | Splits a spec into one implementation issue per package, with dependency order. Also syncs progress and closes the spec when all children are done. |
 | [`implement-feature`](docs/implement-feature.md) | Implements a spec or an implementation issue from a bare issue number ("do 213"): plan, code, tests, checks, smoke test, PR. Asks "subagent or native?" before executing the plan. |
+| [`address-review`](docs/address-review.md) | Works through the review comments on a PR: sorts them, proposes fixes, applies the ones you approve, and replies. Never merges or force-pushes. |
 | [`fix`](docs/fix.md) | Root-cause-first bug fix routine. |
 | [`changelog`](docs/changelog.md) | Builds `CHANGELOG.md` from merged PRs and Conventional Commits. |
 | [`release`](docs/release.md) | Releases through a release PR: picks the version, bumps it, writes the changelog entry and opens the PR; after it merges, tags and publishes the GitHub release. Does not publish to package registries. |
@@ -111,6 +112,8 @@ nexus:plan-issues                one implementation issue per affected package  
         │
 nexus:implement-feature <issue>  branch, plan, code, tests, checks, smoke test, PR
         │                        (asks whether to add the claude-review label)
+nexus:address-review <PR>        optional: sort review comments, fix what you approve, reply
+        │
    PR merged
         │
 nexus:plan-issues <spec>         sync mode: ticks merged children, closes the spec when all are done
