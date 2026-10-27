@@ -5,6 +5,15 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.4.0] — 2026-10-26
+
+### Features
+- **address-review**: new skill that sorts the review comments on a PR, proposes fixes, applies the ones you approve and replies; it never merges or force-pushes (#34)
+
+### Improvements
+- Add evals for `setup` and `changelog` (#33)
+- CI fails when a skill has no `docs/<skill>.md` page (#32)
+
 ## [0.3.1] — 2026-10-26
 
 ### Bug Fixes
