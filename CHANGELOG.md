@@ -5,6 +5,16 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.2.0] — 2026-10-26
+
+### Breaking changes
+- The `mui-layout-designer` and `vitest-unit-tester` agents and the bundled `@mui/mcp` server are no longer part of `nexus`. They are now the optional plugins `nexus-mui` and `nexus-vitest` (both 0.1.0). To keep them: `/plugin install nexus-mui@nexus-marketplace` and `/plugin install nexus-vitest@nexus-marketplace`. The agent names change to `nexus-mui:mui-layout-designer` and `nexus-vitest:vitest-unit-tester` (#24)
+
+### Improvements
+- `nexus` is stack-neutral: it bundles no agents or MCP servers and no longer needs Node to install (#24)
+- **implement-feature**: delegates to an installed add-on agent when one fits the project, otherwise writes the tests and UI itself (#24)
+- **fix, implement-feature**: removed Next.js, `tsc` and `eslint-disable` specifics from the wording (#24)
+
 ## [0.1.8] — 2026-10-26
 
 ### Improvements
