@@ -55,7 +55,7 @@ In the project repo you want to work on (the skills act on the repo of the folde
 2. `/nexus:feature-spec` and describe what you want. It asks one question at a time and publishes the spec as a GitHub Issue after you approve it.
 3. `/nexus:plan-issues <spec number>` only if the spec touches several packages. It creates one issue per package, in dependency order.
 4. Say "do 123" (or `/nexus:implement-feature 123`) for an issue. It plans, asks whether to use subagents, writes code and tests, and opens a PR with a list of anything still to check before merging.
-5. After a PR merges, run `/nexus:plan-issues <spec number>` again to tick finished issues and close the spec. `/nexus:changelog` helps when you release.
+5. After a PR merges, run `/nexus:plan-issues <spec number>` again to tick finished issues and close the spec. `/nexus:release` cuts the release (see below).
 
 Optional: `/nexus:repo-standards` audits or sets up labels, issue templates, CI, Dependabot, commit tooling and a "Getting started" section in the project's `CLAUDE.md`.
 
@@ -80,6 +80,7 @@ Optional: `/nexus:repo-standards` audits or sets up labels, issue templates, CI,
 | `implement-feature` | Implements a spec or an implementation issue from a bare issue number ("do 213"): plan, code, tests, checks, smoke test, PR. Asks "subagent or native?" before executing the plan. |
 | `fix` | Root-cause-first bug fix routine. |
 | `changelog` | Builds `CHANGELOG.md` from merged PRs and Conventional Commits. |
+| `release` | Releases through a release PR: picks the version, bumps it, writes the changelog entry and opens the PR; after it merges, tags and publishes the GitHub release. Does not publish to package registries. |
 
 `nexus` works with any language or framework and bundles no agents or MCP servers. When an add-on below is installed, `implement-feature` delegates to it where it fits; without it, the skill writes the tests and UI itself.
 
@@ -114,7 +115,7 @@ nexus:implement-feature <issue>  branch, plan, code, tests, checks, smoke test, 
         │
 nexus:plan-issues <spec>         sync mode: ticks merged children, closes the spec when all are done
         │
-nexus:changelog                  release notes and tag
+nexus:release                    release PR (version + changelog); after merge: tag and GitHub release
 ```
 
 `nexus:fix` is used whenever a bug or failing build shows up along the way.
