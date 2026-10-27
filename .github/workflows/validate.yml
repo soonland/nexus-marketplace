@@ -40,3 +40,15 @@ jobs:
             abort(bad.join("\n")) unless bad.empty?
             puts "parsed #{yaml.size} yaml, #{json.size} json files"
           '
+
+      - name: Check every skill has a docs page
+        run: |
+          missing=0
+          for f in plugins/*/skills/*/SKILL.md; do
+            name=$(basename "$(dirname "$f")")
+            if [ ! -f "docs/$name.md" ]; then
+              echo "::error file=$f::missing docs/$name.md (one human-readable page per skill)"
+              missing=1
+            fi
+          done
+          exit $missing
