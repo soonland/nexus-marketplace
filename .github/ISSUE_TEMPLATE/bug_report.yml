@@ -13,6 +13,7 @@ body:
         - nexus:feature-spec
         - nexus:plan-issues
         - nexus:implement-feature
+        - nexus:address-review
         - nexus:fix
         - nexus:changelog
         - nexus:release
