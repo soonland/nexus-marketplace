@@ -1,6 +1,6 @@
 {
   "name": "nexus",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Project workflow toolkit for any stack: skills for setup, repo standards, feature specs, issue planning, feature implementation, bug fixes and changelogs.",
   "author": {
     "name": "soonland"
