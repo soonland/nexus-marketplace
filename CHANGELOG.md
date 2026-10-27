@@ -5,6 +5,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.3.1] — 2026-10-26
+
+### Bug Fixes
+- **release**: find release PRs by branch name instead of a title search, which returned nothing in a new session (#29)
+
+### Documentation
+- Add a banner to the README (#30)
+
 ## [0.3.0] — 2026-10-26
 
 ### Features
