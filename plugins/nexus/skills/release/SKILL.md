@@ -26,7 +26,8 @@ If the user named one (`prepare` or `finish`), use it. Otherwise decide from the
 ```bash
 git fetch --tags --quiet
 git describe --tags --abbrev=0 2>/dev/null || echo "no previous tag"
-gh pr list --repo "$REPO" --state open --search "chore(release) in:title" --json number,title,url
+gh pr list --repo "$REPO" --state open --limit 100 --json number,title,headRefName,url \
+  --jq '.[] | select(.headRefName | startswith("release/"))'
 ```
 
 - An open release PR exists: it is waiting to be merged. Show it and stop (nothing to do yet).
@@ -147,10 +148,11 @@ Give the PR URL and what remains: wait for required checks, merge the PR, then r
 ### Step 1: Verify the release PR is merged
 
 ```bash
-gh pr list --repo "$REPO" --state merged --search "chore(release): <version> in:title" --json number,title,mergeCommit,url
+gh pr list --repo "$REPO" --state merged --base "$DEFAULT" --limit 100 --json number,title,headRefName,mergeCommit,url \
+  --jq '.[] | select(.headRefName == "release/<version>")'
 ```
 
-If no merged release PR is found, stop and say so. Never tag an unmerged branch.
+Match on the branch name, not on the title: GitHub search handles `:` and `(` in titles unreliably, and a new session has no memory of the PR number. If the user did not give a version, take the most recent merged `release/*` PR whose tag does not exist yet. If no merged release PR is found, stop and say so. Never tag an unmerged branch.
 
 Then move to the merge commit:
 
