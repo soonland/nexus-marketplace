@@ -5,6 +5,17 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.3.0] — 2026-10-26
+
+### Features
+- **release**: new skill that cuts a release through a release PR, then tags the merge commit and publishes the GitHub release (#26)
+
+### Improvements
+- **changelog**: defers tagging to `nexus:release` when the project releases through a release PR (#26)
+
+### Documentation
+- Add a human-readable page for each skill under `docs/` (#27)
+
 ## [0.2.0] — 2026-10-26
 
 ### Breaking changes
