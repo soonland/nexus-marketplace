@@ -15,6 +15,7 @@ body:
         - nexus:implement-feature
         - nexus:fix
         - nexus:changelog
+        - nexus:release
         - nexus-mui (mui-layout-designer agent)
         - nexus-vitest (vitest-unit-tester agent)
         - Other

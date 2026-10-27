@@ -114,7 +114,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Step 5 — Tag
 
-After writing, offer to create a git tag:
+If the project releases through a release PR (the default branch is protected, or the user says so), do not tag from here: `nexus:release` opens the release PR, then tags and publishes after it merges.
+
+Otherwise, after writing, offer to create a git tag:
 ```bash
 git tag -a v<version> -m "Release v<version>"
 git push origin v<version>
