@@ -204,7 +204,7 @@ Write tests for the feature before considering it complete:
 - Follow existing test file conventions: location, naming, import style.
 - Cover the happy path, edge cases, and any branching logic introduced.
 - Target the project's coverage threshold on new code, or **≥ 90%** if none is defined. Edge cases that require excessive infrastructure setup may be omitted; document them with a `TODO: test` comment.
-- If the project uses Vitest, delegate test writing to the `nexus:vitest-unit-tester` agent. For UI work built with Material UI, the `nexus:mui-layout-designer` agent can build the layout.
+- If an installed agent fits the project's test framework or UI library (for example `nexus-vitest:vitest-unit-tester` or `nexus-mui:mui-layout-designer` from the optional add-on plugins), delegate to it. Otherwise write the tests and UI yourself in the project's own style.
 - Run the test suite and confirm all tests pass before proceeding.
 
 **A feature is not complete without passing tests at the required coverage.**
@@ -219,7 +219,7 @@ Before moving on, explicitly verify:
 ### Step 6 — Lint & Typecheck Gate
 
 Before smoke testing, run the project's full static analysis (lint, typecheck, and build) and fix any issues:
-- Fix all lint errors. Do not suppress rules (for example with `eslint-disable`) unless the rule is genuinely inapplicable, and explain why in a comment.
+- Fix all lint errors. Do not suppress rules (for example with an inline ignore or disable comment) unless the rule is genuinely inapplicable, and explain why in a comment.
 - Fix all type errors. Do not use `any` casts or `@ts-ignore` to silence them.
 - Re-run until every command exits cleanly before proceeding.
 

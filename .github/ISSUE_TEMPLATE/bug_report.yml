@@ -15,8 +15,8 @@ body:
         - nexus:implement-feature
         - nexus:fix
         - nexus:changelog
-        - mui-layout-designer agent
-        - vitest-unit-tester agent
+        - nexus-mui (mui-layout-designer agent)
+        - nexus-vitest (vitest-unit-tester agent)
         - Other
     validations:
       required: true

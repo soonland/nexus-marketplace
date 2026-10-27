@@ -63,7 +63,9 @@ Optional: `/nexus:repo-standards` audits or sets up labels, issue templates, CI,
 
 | Plugin | What it is |
 |---|---|
-| `nexus` | Project workflow toolkit: skills for the spec-to-release workflow, plus two agents. |
+| `nexus` | Project workflow toolkit for any stack: skills for the spec-to-release workflow. |
+| `nexus-mui` | Optional add-on: Material UI layout agent with the MUI MCP server (needs Node). |
+| `nexus-vitest` | Optional add-on: Vitest unit-test agent. |
 
 ### `nexus`
 
@@ -79,14 +81,23 @@ Optional: `/nexus:repo-standards` audits or sets up labels, issue templates, CI,
 | `fix` | Root-cause-first bug fix routine. |
 | `changelog` | Builds `CHANGELOG.md` from merged PRs and Conventional Commits. |
 
-**Agents**
+`nexus` works with any language or framework and bundles no agents or MCP servers. When an add-on below is installed, `implement-feature` delegates to it where it fits; without it, the skill writes the tests and UI itself.
 
-| Agent | Purpose |
-|---|---|
-| `mui-layout-designer` | Material UI (v9) layouts, using current APIs looked up through the MUI MCP server. |
-| `vitest-unit-tester` | Vitest (v5) unit tests, written for the installed version. |
+### `nexus-mui` (optional)
 
-**MCP server:** the plugin bundles `@mui/mcp` (`.mcp.json`) for the MUI agent. It runs through `npx`, so Node is required. The version is pinned in `.mcp.json` on purpose (an unpinned `@latest` would run whatever is published); bump it deliberately.
+`mui-layout-designer`: Material UI (v9) layouts, using current APIs looked up through the bundled `@mui/mcp` server. The server runs through `npx`, so Node is required. Its version is pinned in `plugins/nexus-mui/.mcp.json` on purpose (an unpinned `@latest` would run whatever is published); bump it deliberately.
+
+```
+/plugin install nexus-mui@nexus-marketplace
+```
+
+### `nexus-vitest` (optional)
+
+`vitest-unit-tester`: Vitest (v5) unit tests, written for the installed version.
+
+```
+/plugin install nexus-vitest@nexus-marketplace
+```
 
 ## Workflow
 
