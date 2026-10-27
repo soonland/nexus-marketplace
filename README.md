@@ -1,4 +1,4 @@
-# nexus: from idea to merged PR, on GitHub
+<h1 align="center"><img src="assets/banner.svg" alt="nexus: from idea to merged PR, on GitHub" width="720"></h1>
 
 [![validate](https://github.com/soonland/nexus-marketplace/actions/workflows/validate.yml/badge.svg)](https://github.com/soonland/nexus-marketplace/actions/workflows/validate.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
