@@ -5,6 +5,19 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.6.0] — 2026-10-31
+
+### Features
+- **fix**: asks what is going wrong (actual, steps, expected) before fixing, then writes a regression test that fails first, makes the smallest fix and checks that the test catches the bug; bisects in a separate worktree only when it used to work (#40)
+
+### Improvements
+- Add evals for `release`, `repo-standards` and `fix` (#39, #40)
+- Refresh the `nexus` and marketplace descriptions to include `release` and `address-review` (#39)
+- CI checks that plugins with agents have a docs page, and fails feature PRs that change the version or the changelog (#39)
+
+### Documentation
+- Add `SECURITY.md` and docs pages for the `nexus-mui` and `nexus-vitest` agents (#39)
+
 ## [0.5.0] — 2026-10-31
 
 ### Features
