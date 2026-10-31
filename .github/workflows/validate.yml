@@ -69,6 +69,15 @@ jobs:
           done
           exit $missing
 
+      # `gh issue view --json` has no authorAssociation field and fails with "Unknown JSON field".
+      # Read it with `gh api repos/<repo>/issues/<n> --jq .author_association` instead.
+      - name: Skills must not ask gh issue view for authorAssociation
+        run: |
+          if grep -rnE 'gh issue view[^`]*--json[^`]*authorAssociation' plugins/*/skills --include=SKILL.md; then
+            echo "::error::gh issue view cannot return authorAssociation; use gh api repos/<repo>/issues/<n> --jq .author_association"
+            exit 1
+          fi
+
       # CONTRIBUTING: the version and the changelog change in the release PR only.
       # On a pull_request run HEAD is the merge commit, so HEAD^1 is the base it merges into.
       - name: Feature PRs must not bump the version or edit the changelog
