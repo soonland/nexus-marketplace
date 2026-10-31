@@ -1,0 +1,40 @@
+name: Bug report
+description: Report something that is not working
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Before you submit:
+        - Search [existing issues](https://github.com/{{REPO}}/issues) in case it is already reported.
+        - Remove any secrets, tokens, or private details from what you paste.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: The smallest set of steps that triggers the problem.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Paste any error output or attach a screenshot, if relevant.
+      render: shell
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: App version or commit, OS, and browser or runtime version, as relevant.
+    validations:
+      required: true
