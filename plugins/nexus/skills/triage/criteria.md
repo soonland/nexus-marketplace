@@ -65,7 +65,7 @@ Expected behavior is the user's or the reporter's call. Never guess it.
 
 Before asking a reporter for details, look for an existing request: a comment asking for them, or the `needs-info` label. If one exists, do not ask again.
 
-Ask for everything that is missing in ONE comment, then add `needs-info`.
+Ask for everything that is missing in ONE comment, then add `needs-info`. Ask only for the missing items (actual, steps, expected, or the form's required fields), one short line each, and nothing else.
 
 ## Safety
 

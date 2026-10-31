@@ -22,7 +22,7 @@ Use `repo` from `.claude/nexus.json` if that file exists, else `gh repo view --j
 ## 3. Gather the details
 
 - Take what the user already said first, then ask only for what is missing.
-- Ask **one question at a time**, most important first, in plain words. When something required is missing, your whole reply is that one question.
+- Ask **one question at a time**, most important first, in plain words. When something required is missing, your whole reply is that one question, as a single sentence with no list of example answers after it.
 - Use `AskUserQuestion` only for choices with 2 to 4 distinct options (a dropdown field, for example). A one-option question makes the call fail. Ask free text as a plain-text question.
 - Never ask for a commit SHA.
 - Expected behavior is the user's call. Never guess it.
@@ -31,7 +31,7 @@ Use `repo` from `.claude/nexus.json` if that file exists, else `gh repo view --j
 
 - **Title:** short and specific, written by you from the user's words.
 - **Body:** one `### <field label>` heading per form field followed by the answer, in the form's order, skipping empty optional fields. Without a form, use the headings "What happens now", "Steps to reproduce" and "What should happen".
-- **Labels:** propose one priority (P0 to P3) with a one-line reason, the type `bug`, and a component if one applies, following the criteria. Reuse the project's existing priority labels. If a label is missing, tell the user before creating it. A priority is proposed, never applied without the user's acceptance.
+- **Labels:** propose exactly one priority (P0 to P3) with a one-line reason, with no ranges or alternatives, the type `bug`, and a component if one applies, following the criteria. Reuse the project's existing priority labels. If a label is missing, tell the user before creating it. A priority is proposed, never applied without the user's acceptance.
 
 ## 5. Check for duplicates
 

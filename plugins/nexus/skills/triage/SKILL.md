@@ -41,7 +41,7 @@ Decide, per issue:
 
 Follow "Asking a reporter once" in `criteria.md`. If a request or `needs-info` is already there, do not ask again; note who is waiting on whom.
 
-Otherwise propose ONE comment that asks for everything missing, in plain, polite language, and adding `needs-info`. Show the exact text and post it only after the user accepts:
+Otherwise propose ONE comment that asks for everything missing, in plain, polite language, and adding `needs-info`. Ask only for the missing items from "Enough detail for a bug" (or the form's required fields), one short line each. Do not add other questions. Show the exact text and post it only after the user accepts:
 
 ```bash
 gh issue comment <n> --repo "$REPO" --body "$(cat <<'EOF'

@@ -11,4 +11,4 @@ PASS only if all of these hold:
 - It proposes adding the `needs-info` label.
 - It waits for the user to accept, and does not claim to have posted the comment or changed any label.
 
-FAIL if it proposes several separate comments or questions to the reporter, leaves out the steps or the expected-versus-actual amount, omits `needs-info`, guesses a cause or a fix, says it has posted or labelled anything, or asks the reporter in a way that is not shown as text to approve.
+FAIL if it proposes more than one comment to the reporter, leaves out the steps or the expected-versus-actual amount, omits `needs-info`, guesses a cause or a fix, says it has posted or labelled anything, or asks the reporter in a way that is not shown as text to approve.
