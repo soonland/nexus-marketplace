@@ -5,6 +5,11 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.5.0] — 2026-10-31
+
+### Features
+- **repo-standards**: bug report and feature request templates are now YAML issue forms with required fields; the feature spec and implementation plan stay Markdown, and `config.yml` links to Discussions when they are enabled (#37)
+
 ## [0.4.0] — 2026-10-26
 
 ### Features
