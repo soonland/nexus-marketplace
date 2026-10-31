@@ -79,7 +79,9 @@ Optional: `/nexus:repo-standards` audits or sets up labels, issue templates, CI,
 | [`plan-issues`](docs/plan-issues.md) | Splits a spec into one implementation issue per package, with dependency order. Also syncs progress and closes the spec when all children are done. |
 | [`implement-feature`](docs/implement-feature.md) | Implements a spec or an implementation issue from a bare issue number ("do 213"): plan, code, tests, checks, smoke test, PR. Asks "subagent or native?" before executing the plan. |
 | [`address-review`](docs/address-review.md) | Works through the review comments on a PR: sorts them, proposes fixes, applies the ones you approve, and replies. Never merges or force-pushes. |
-| [`fix`](docs/fix.md) | Root-cause-first bug fix routine. |
+| [`fix`](docs/fix.md) | Root-cause-first bug fix routine. Starts from an error, a failing test, a description, or an issue number ("fix 213"); writes a regression test that fails first. |
+| [`create-bug`](docs/create-bug.md) | Files a well-formed bug as a GitHub issue, following the project's own `bug_report.yml`; proposes priority (P0 to P3) and labels, checks for duplicates, and creates it only after you confirm. |
+| [`triage`](docs/triage.md) | Goes through existing issues: asks reporters for missing details in one comment and keeps labels and priority right, with your acceptance. Never closes or edits an issue. |
 | [`changelog`](docs/changelog.md) | Builds `CHANGELOG.md` from merged PRs and Conventional Commits. |
 | [`release`](docs/release.md) | Releases through a release PR: picks the version, bumps it, writes the changelog entry and opens the PR; after it merges, tags and publishes the GitHub release. Does not publish to package registries. |
 
@@ -121,7 +123,7 @@ nexus:plan-issues <spec>         sync mode: ticks merged children, closes the sp
 nexus:release                    release PR (version + changelog); after merge: tag and GitHub release
 ```
 
-`nexus:fix` is used whenever a bug or failing build shows up along the way.
+`nexus:fix` is used whenever a bug or failing build shows up along the way. Bugs have their own short path: `nexus:create-bug` files one with the details `fix` needs, `nexus:triage` chases missing details and keeps priorities (P0 to P3) right, and `nexus:fix <issue>` starts from the issue.
 
 Every skill works in the repo of the current working directory (never this one) and uses `.claude/nexus.json` for defaults when it exists:
 
