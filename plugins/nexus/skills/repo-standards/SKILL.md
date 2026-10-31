@@ -22,7 +22,7 @@ Templates live in the `templates/` folder next to this `SKILL.md` (use this skil
 
 | # | Item | Template / action |
 |---|---|---|
-| 1 | **Labels**: `feature-spec`, `implementation`, `dependencies`, `claude-review`, plus component labels from `.claude/nexus.json` | `gh label create` |
+| 1 | **Labels**: `feature-spec`, `implementation`, `dependencies`, `claude-review`, `P0` to `P3` and `needs-info` (names and colors from the table in `../triage/criteria.md`), plus component labels from `.claude/nexus.json` | `gh label create` |
 | 2 | **Issue templates**: bug report and feature request as YAML issue forms, feature spec and implementation plan as Markdown, `config.yml` | `templates/github/ISSUE_TEMPLATE/` |
 | 3 | **CI** workflow for the detected stack: install, lint, format check, typecheck, test (with coverage where supported), build | `templates/ci/<stack>.yml` |
 | 4 | **Claude Code** workflows: `@claude` on issues and PRs (owner only) and label-gated PR review | `templates/github/workflows/claude.yml`, `claude-code-review.yml` |
@@ -157,7 +157,7 @@ Labels:
 ```bash
 gh label create "<name>" --repo "$REPO" --color "<hex>" --description "<text>"   # skip labels that exist
 ```
-Label set: `feature-spec` (`0075ca`), `implementation` (`0e8a16`), `dependencies` (`0366d6`), `claude-review` (`5319e7`), one per component in `.claude/nexus.json` (`ededed`). Do not delete or rename existing labels.
+Label set: `feature-spec` (`0075ca`), `implementation` (`0e8a16`), `dependencies` (`0366d6`), `claude-review` (`5319e7`), one per component in `.claude/nexus.json` (`ededed`), and `P0` to `P3` and `needs-info` with the colors from `../triage/criteria.md` (relative to this skill's base directory; reuse existing priority-like labels as described there). Do not delete or rename existing labels.
 
 Branch protection, only if the user explicitly selected it: require a pull request and the CI job to pass on `$DEFAULT`. Confirm the exact required check name from the CI workflow first, and warn that it can lock the user out of direct pushes.
 
