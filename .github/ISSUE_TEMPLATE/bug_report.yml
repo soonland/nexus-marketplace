@@ -2,6 +2,13 @@ name: Bug report
 description: A skill, agent, or the install is not behaving as documented
 labels: [bug]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Before you submit:
+        - Search [existing issues](https://github.com/soonland/nexus-marketplace/issues) in case it is already reported.
+        - For questions about how to use a skill, use [Discussions](https://github.com/soonland/nexus-marketplace/discussions) instead.
+        - Remove any secrets, tokens, or private repo details from what you paste, including anything from `.claude/nexus.json`.
   - type: dropdown
     id: area
     attributes:
