@@ -4,13 +4,13 @@
     "name": "soonland"
   },
   "metadata": {
-    "description": "Personal collection of Claude Code skills and plugins"
+    "description": "Claude Code plugins that take a feature from idea to merged PR on GitHub"
   },
   "plugins": [
     {
       "name": "nexus",
       "source": "./plugins/nexus",
-      "description": "Project workflow toolkit for any stack: skills for setup, repo standards, feature specs, issue planning, feature implementation, bug fixes and changelogs."
+      "description": "Project workflow toolkit for any stack: skills for setup, repo standards, feature specs, issue planning, feature implementation, PR review follow-up, bug fixes, changelogs and releases."
     },
     {
       "name": "nexus-mui",
