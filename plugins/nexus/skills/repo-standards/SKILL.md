@@ -23,7 +23,7 @@ Templates live in the `templates/` folder next to this `SKILL.md` (use this skil
 | # | Item | Template / action |
 |---|---|---|
 | 1 | **Labels**: `feature-spec`, `implementation`, `dependencies`, `claude-review`, plus component labels from `.claude/nexus.json` | `gh label create` |
-| 2 | **Issue templates**: feature spec, implementation plan, bug report, `config.yml` | `templates/github/ISSUE_TEMPLATE/` |
+| 2 | **Issue templates**: bug report and feature request as YAML issue forms, feature spec and implementation plan as Markdown, `config.yml` | `templates/github/ISSUE_TEMPLATE/` |
 | 3 | **CI** workflow for the detected stack: install, lint, format check, typecheck, test (with coverage where supported), build | `templates/ci/<stack>.yml` |
 | 4 | **Claude Code** workflows: `@claude` on issues and PRs (owner only) and label-gated PR review | `templates/github/workflows/claude.yml`, `claude-code-review.yml` |
 | 5 | **Dependabot**: weekly updates for every detected ecosystem plus GitHub Actions, patch bumps ignored, new releases held back 3 days (`cooldown`) | `templates/github/dependabot.yml` |
@@ -92,6 +92,7 @@ REPO=$(gh repo view --json nameWithOwner --jq '.nameWithOwner')
 DEFAULT=$(gh repo view --json defaultBranchRef --jq '.defaultBranchRef.name')
 gh label list --limit 200 --json name,color
 gh secret list
+gh repo view --json hasDiscussionsEnabled --jq '.hasDiscussionsEnabled'
 ls -A .github .github/workflows .github/ISSUE_TEMPLATE 2>/dev/null
 ```
 
@@ -121,7 +122,7 @@ git checkout -b chore/repo-standards
 ```
 
 For each selected file:
-1. Read the template and fill the placeholders (`{{DEFAULT_BRANCH}}`, `{{NODE_VERSION}}`, `{{PYTHON_VERSION}}`, `{{JAVA_VERSION}}`, `{{COVERAGE_THRESHOLD}}`, `{{PM_INSTALL}}`, `{{PM_RUN}}`, `{{PM_EXEC}}`, `{{PM_CACHE}}`, `{{PY_INSTALL}}`, `{{PY_RUN}}`, `{{PY_CACHE}}`, `{{CLAUDE_MODEL}}`, `{{COMPONENT_LABELS}}`, `{{CLAUDE_ACTION_SHA}}`, `{{ECOSYSTEM}}`, `{{DIRECTORY}}`).
+1. Read the template and fill the placeholders (`{{DEFAULT_BRANCH}}`, `{{NODE_VERSION}}`, `{{PYTHON_VERSION}}`, `{{JAVA_VERSION}}`, `{{COVERAGE_THRESHOLD}}`, `{{PM_INSTALL}}`, `{{PM_RUN}}`, `{{PM_EXEC}}`, `{{PM_CACHE}}`, `{{PY_INSTALL}}`, `{{PY_RUN}}`, `{{PY_CACHE}}`, `{{CLAUDE_MODEL}}`, `{{COMPONENT_LABELS}}`, `{{REPO}}`, `{{CLAUDE_ACTION_SHA}}`, `{{ECOSYSTEM}}`, `{{DIRECTORY}}`).
 2. Adapt to the repo, as described under "Stack detection": use the repo's real commands, remove steps it has no tool for, switch package manager and caching to match, and add `working-directory` or `--filter` handling for monorepos or multi-stack repos (one job per stack).
 3. If the target file already exists, show a diff and ask before replacing or merging. Never silently overwrite.
 4. For `uses:` lines, resolve the latest major of each action (`gh api repos/<owner>/<action>/releases/latest --jq .tag_name`) instead of trusting the version in the template.
@@ -129,6 +130,7 @@ For each selected file:
 6. **Pin third-party actions that receive secrets to a full commit SHA**, with the version in a trailing comment. This applies to `anthropics/claude-code-action` (placeholder `{{CLAUDE_ACTION_SHA}}`) and any other non-GitHub-owned action that gets a token or secret. Resolve it with `gh api repos/<owner>/<action>/commits/<tag> --jq .sha` (for example tag `v1`), and write `uses: <owner>/<action>@<40-char-sha> # v1`. The Dependabot `github-actions` entry then keeps the SHA up to date. Major tags are acceptable for GitHub-owned `actions/*`.
 
 Item-specific notes:
+- **Issue templates**: bug report and feature request are YAML issue forms (`.yml`), because forms give required fields, dropdowns and consistent issue bodies that a Markdown template cannot enforce. Feature spec and implementation plan stay Markdown (`.md`): the nexus skills publish them with `gh`, forms do not apply to that path, and a spec is a living document that gets edited. Fill `{{REPO}}` with `owner/repo`. Keep the form `labels` (`bug`, `enhancement`) only if those labels exist in the repo, since GitHub does not apply a missing label. In `config.yml`, keep the `contact_links` block only when Discussions is enabled (Step 1); otherwise write just `blank_issues_enabled: true`. When auditing, a Markdown `bug_report.md` or `feature_request.md` is **differs**: offer to replace it with the form, and show the old file's headings so the user can carry over custom questions into the form's fields. Adapt the forms to the repo where it is obvious (for example a dropdown of components from `.claude/nexus.json` on the bug form), and drop the "Environment" field for repos where it makes no sense.
 - **Claude workflows**: the `@claude` trigger must check the association (`OWNER`) of the author of the *triggering content* for each event type (comment, review comment, review, issue). Never gate on `github.event.issue.author_association` for comment events: it describes whoever opened the thread, so any commenter on an owner-authored issue or PR would pass. When auditing an existing `claude.yml`, flag that pattern as **differs** with a security note. They also need the `CLAUDE_CODE_OAUTH_TOKEN` repository secret. Check `gh secret list`. Never set it yourself and never ask the user to paste it into chat. Tell them to run `claude setup-token` in a terminal and then `gh secret set CLAUDE_CODE_OAUTH_TOKEN`. Also mention that the Claude GitHub app must be installed on the repo (`/install-github-app` inside Claude Code).
 - **Dependabot**: build the `updates:` list from the detected ecosystems and directories; always keep the `github-actions` entry.
 - **Commit tooling, non-Node stacks**: write `.pre-commit-config.yaml` from `templates/pre-commit-config.yaml`, resolving the latest tags with `gh api repos/compilerla/conventional-pre-commit/releases/latest --jq .tag_name` and `gh api repos/pre-commit/pre-commit-hooks/releases/latest --jq .tag_name`. Add the repo's own formatter and linter hooks. Tell the user to install the tool (`pipx install pre-commit` or `brew install pre-commit`), then run:

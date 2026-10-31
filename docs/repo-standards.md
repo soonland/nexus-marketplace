@@ -9,6 +9,7 @@ Audit or set up a repo's standard configuration: labels, issue templates, CI, De
 
 ## What it changes
 - **Files** go on a new branch, `chore/repo-standards`, and are committed locally. It does not push or open a PR unless you ask. Existing files are never overwritten without showing a diff.
+- **Issue templates**: bug report and feature request are YAML issue forms (required fields, consistent bodies). Feature spec and implementation plan stay Markdown because the nexus skills create them. If Discussions is enabled, `config.yml` links usage questions there. An existing Markdown bug template is flagged as "differs" and you can choose to replace it.
 - CI and Dependabot follow your stack: Node (pnpm, npm, yarn, bun), Python (uv, poetry, pdm, pipenv, hatch, pip), Go, Rust, JVM. It uses the commands your repo already has and drops steps for tools you don't use.
 - **Labels and branch protection** change GitHub straight away, so it lists the exact commands and waits for your OK first.
 
