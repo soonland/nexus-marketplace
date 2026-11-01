@@ -11,7 +11,7 @@ It detects the repo with `gh`, then asks (or proposes a default for) three thing
 ## What it changes
 - Writes `.claude/nexus.json` (repo, board, components, assignee). If the file exists, it shows it and asks whether to update or keep it.
 - Merges the marketplace and `nexus@nexus-marketplace` into `.claude/settings.json`, so teammates are prompted to install them when they trust the folder. Existing keys are kept.
-- Creates GitHub labels in the repo: `feature-spec` and one per component.
+- Creates GitHub labels in the repo: `feature-spec` and one per component, plus the priority labels `P0` to `P3` and `needs-info`.
 
 ## What it does not do
 - It does not commit or push. Commit `.claude/nexus.json` and `.claude/settings.json` yourself if you want to share them.

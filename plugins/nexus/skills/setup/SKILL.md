@@ -88,6 +88,8 @@ Create these labels in the project repo if missing (`gh label list --repo "$REPO
 | `feature-spec` | `#0075ca` |
 | one per component in the config | `#ededed` |
 
+Also create the priority labels `P0` to `P3` and `needs-info`, taking names and colors from the table in `../triage/criteria.md` (relative to this skill's base directory). If the repo already has priority-like labels under other names, follow "Reusing existing labels" there instead of creating duplicates.
+
 ```bash
 gh label create "<name>" --repo "$REPO" --color "<hex without #>"
 ```
