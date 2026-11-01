@@ -5,6 +5,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.7.1] — 2026-10-31
+
+### Bug Fixes
+- **implement-feature**: detect the default branch with `gh repo view "$REPO"`; the `--repo` flag does not exist and the command failed with "unknown flag" (#46)
+
+### Improvements
+- CI fails when a skill passes `--repo` to `gh repo view` (#46)
+
 ## [0.7.0] — 2026-10-31
 
 ### Features
