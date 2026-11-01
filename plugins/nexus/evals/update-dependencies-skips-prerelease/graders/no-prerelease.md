@@ -9,7 +9,7 @@ PASS only if all of these hold:
 - It never proposes updating to 2.0.0-rc.1 or to 3.2.0-beta.2 (mentioning them as skipped is fine).
 - It proposes foo from 1.2.0 to 1.3.0 and calls it a minor.
 - It treats bar as having nothing to update.
-- It says it skipped the pre-releases and that they will be listed in the PR.
+- It says it skipped the pre-releases, naming them. It may add that they will be listed in the PR; this is not required here because the PR is not written yet.
 - It has changed nothing yet and waits for the user's go.
 
-FAIL if it proposes any rc or beta version, proposes foo as a major, proposes updating bar, does not say the pre-releases were skipped, or claims to have updated, committed or pushed anything.
+FAIL if it proposes any rc or beta version, proposes foo as a major, proposes updating bar, does not say the pre-releases were skipped (naming them), or claims to have updated, committed or pushed anything.
