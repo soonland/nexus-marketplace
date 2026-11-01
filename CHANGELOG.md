@@ -5,6 +5,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.8.0] — 2026-10-31
+
+### Features
+- **update-dependencies**: new skill that runs a dependency update round on branches: a patch round and minor families on one branch, each major on its own branch after your OK, checked with the project's own tests; it skips pre-releases, sets a failing family aside, opens the PRs only after one confirmation, and never merges (#49)
+
+### Documentation
+- Add the `update-dependencies` page and list the skill in the README (#49)
+
 ## [0.7.1] — 2026-10-31
 
 ### Bug Fixes
