@@ -43,6 +43,7 @@ Always update one package to an explicit version. Never run a blanket update-all
 | Gradle | Needs a plugin, see below | Edit the version in the build file or version catalog (`gradle/libs.versions.toml`), then refresh with the project's usual build command |
 
 Notes:
+- Listing commands can exit non-zero when something is outdated (`npm outdated` and `pnpm outdated` exit 1 in that case; checked). That is a result, not a failure: read the output. Treat it as an error only when there is no usable output. Parse stdout only, since warnings go to stderr.
 - Lockfile refresh: npm, pnpm, bun, uv, poetry, Go (`go.sum`) and Cargo rewrite the lockfile as part of the command. pip has no lockfile: the pinned requirements file is the record. Maven has none by default.
 - pnpm and npm output: the `wanted` field is in-range, `latest` is newest. For tools that print only current and latest, treat wanted as unknown and say so.
 - Pip: if a project uses `pip-tools`, the `.in` file is the source and the `.txt` is compiled. Edit the `.in` and recompile with the project's own command.
