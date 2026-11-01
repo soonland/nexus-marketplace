@@ -57,7 +57,7 @@ In the project repo you want to work on (the skills act on the repo of the folde
 4. Say "do 123" (or `/nexus:implement-feature 123`) for an issue. It plans, asks whether to use subagents, writes code and tests, and opens a PR with a list of anything still to check before merging.
 5. After a PR merges, run `/nexus:plan-issues <spec number>` again to tick finished issues and close the spec. `/nexus:release` cuts the release (see below).
 
-Optional: `/nexus:repo-standards` audits or sets up labels, issue templates, CI, Dependabot, commit tooling and a "Getting started" section in the project's `CLAUDE.md`.
+Optional: `/nexus:repo-standards` audits or sets up labels, issue templates, CI, Dependabot, commit tooling and a "Getting started" section in the project's `CLAUDE.md`. `/nexus:update-dependencies` then does the update round that Dependabot's PRs alone do not verify.
 
 ## Plugins
 
@@ -82,6 +82,7 @@ Optional: `/nexus:repo-standards` audits or sets up labels, issue templates, CI,
 | [`fix`](docs/fix.md) | Root-cause-first bug fix routine. Starts from an error, a failing test, a description, or an issue number ("fix 213"); writes a regression test that fails first. |
 | [`create-bug`](docs/create-bug.md) | Files a well-formed bug as a GitHub issue, following the project's own `bug_report.yml`; proposes priority (P0 to P3) and labels, checks for duplicates, and creates it only after you confirm. |
 | [`triage`](docs/triage.md) | Goes through existing issues: asks reporters for missing details in one comment and keeps labels and priority right, with your acceptance. Never closes or edits an issue. |
+| [`update-dependencies`](docs/update-dependencies.md) | Runs a dependency update round on branches: a patch round and minor families on one branch, each major on its own branch after your OK, checked with the project's own tests. Skips pre-releases, sets a failing family aside, and opens the PRs only after one confirmation. Never merges. |
 | [`changelog`](docs/changelog.md) | Builds `CHANGELOG.md` from merged PRs and Conventional Commits. |
 | [`release`](docs/release.md) | Releases through a release PR: picks the version, bumps it, writes the changelog entry and opens the PR; after it merges, tags and publishes the GitHub release. Does not publish to package registries. |
 
