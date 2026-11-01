@@ -5,6 +5,21 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.7.0] — 2026-10-31
+
+### Features
+- **create-bug**: new skill that files a well-formed bug as a GitHub issue, following the project's own `bug_report.yml`, with a priority (P0 to P3), a duplicate check, and creation only after you confirm (#44)
+- **triage**: new skill that asks reporters for missing details in one comment and keeps labels and priority right, with your acceptance; it never closes or edits an issue (#44)
+- **fix**: works from an issue number ("fix 213"): reads the issue, can comment the root cause or ask the reporter for details after approval, and asks before creating a branch or worktree (#44)
+- **setup**, **repo-standards**: create the `P0` to `P3` and `needs-info` labels (#44)
+
+### Bug Fixes
+- **plan-issues**, **implement-feature**: read the issue author's association from the API; their first command failed with "Unknown JSON field" (#43)
+
+### Improvements
+- Add evals for `create-bug`, `triage` and `fix` from an issue (#44)
+- CI fails when a skill asks `gh issue view` for `authorAssociation` (#43)
+
 ## [0.6.0] — 2026-10-31
 
 ### Features
