@@ -17,7 +17,7 @@ If `.claude/nexus.json` exists in the project (created by `nexus:setup`), read i
 ## Pre-flight
 
 1. Resolve the repo: `repo` from `.claude/nexus.json`, else `gh repo view --json nameWithOwner --jq '.nameWithOwner'`. Call it `$REPO` and pass `--repo "$REPO"` to every `gh issue` and `gh pr` command.
-2. Detect the default branch: `gh repo view --repo "$REPO" --json defaultBranchRef --jq '.defaultBranchRef.name'`. Call it `$DEFAULT`.
+2. Detect the default branch: `gh repo view "$REPO" --json defaultBranchRef --jq '.defaultBranchRef.name'`. Call it `$DEFAULT`.
 3. Fetch the issue and the author's association with the repo (`gh issue view` has no field for the association, so read it from the API; take `<number>` from the URL if you were given one):
    ```bash
    gh issue view <number-or-url> --repo "$REPO" --json title,body,labels,author
