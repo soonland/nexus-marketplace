@@ -1,12 +1,12 @@
 ---
 name: update-dependencies
-description: Run a dependency update round on branches, checked with the project's own tests, and open the PRs after the user's OK. Use when the user asks to "update dependencies", "update my packages", "handle the Dependabot PRs", "bump dependencies", "upgrade packages" or "do the dependency round".
+description: Run a dependency update round on two branches (patches and minors, then majors), checked with the project's own tests, and open the PRs after the user's OK. Use when the user asks to "update dependencies", "update my packages", "handle the Dependabot PRs", "bump dependencies", "upgrade packages" or "do the dependency round".
 argument-hint: "[all | patch | <package or family>]"
 ---
 
 # Update Dependencies Skill
 
-Update the project's dependencies in groups: a patch round, minor families, then each major on its own branch. Check every group with the project's own commands. Nothing changes before the user says go, and nothing is pushed or merged without their OK.
+Update the project's dependencies in groups on TWO branches, one PR each: `chore/deps-<date>` for the patch round and minor families, `chore/deps-major-<date>` for all the majors. One commit per group. Check every group with the project's own commands. Nothing changes before the user says go, and nothing is pushed or merged without their OK.
 
 Requires `git`, `gh` (authenticated) and the project's package manager. Work in the user's own project repo. Read `ecosystems.md` (next to this file) for the per-stack commands, pre-release markers, version classification, release-note sources and safety notes. Do not restate it here.
 
@@ -29,9 +29,15 @@ Requires `git`, `gh` (authenticated) and the project's package manager. Work in 
 
 Apply these rules in order: Dependabot `groups` in `.github/dependabot.yml` if the project defines them; same scope or prefix (`@mui/*`; `react` with `react-dom`; `@types/x` with `x`); declared companions (peer dependencies, only where `ecosystems.md` says the stack has them); everything else is its own family.
 
-Show ONE table: family, packages, from to to, patch/minor/major, with majors marked. The user moves packages or splits a family. Change nothing until the user says go. Do not remember choices between runs.
+Show ONE table: family, packages, from to to, patch/minor/major, with majors marked. Then ask which to update with `AskUserQuestion`; never assume everything is wanted:
 
-### Step 3: Low-risk branch
+1. First question, one choice: all of them (recommended), patch and minor only, let me pick, or cancel. Stop on cancel.
+2. On "let me pick", ask with `multiSelect: true`, one option per family (label the family, description its packages and from to to, marking majors). The call allows 4 questions of 4 options: group the families, patch round first, then minors, then majors, and use more calls if there are more than 16. Every family the user does not select is left out and listed as "not selected" in the report.
+3. Moving a package between families or splitting a family is free text from the user; redo the table and the questions after it.
+
+Change nothing until the selection is made. Do not remember choices between runs. Selecting a major here only puts it in the round; it still gets its own pause in Step 6.
+
+### Step 3: Low-risk branch, patches and minors
 
 1. `git checkout -b chore/deps-<date>` from the default branch.
 2. Patch round: update each patch-level package by name to an explicit version, never a blanket update-all. Check the real version change afterwards; anything that moved more than expected goes back to its proper group (undo that package). Run the checks, then one commit: `chore(deps): update patch versions`.
@@ -60,20 +66,20 @@ Then reinstall from the lockfile (Step 4). This is safe because the tree was cle
 
 ### Step 6: Majors, one family at a time
 
-Each major gets its own branch cut from the default branch (switch back to it first), `chore/deps-<family>-<major>`, so it can be merged, reviewed or reverted alone. A major unit is a family (React with `react-dom`), not a single package.
+ALL the majors share ONE branch, `chore/deps-major-<date>`, cut from the default branch (switch back to it first) the first time a major is applied. Do NOT cut a branch per major: parallel branches all rewrite the lockfile and force a rebase for each. Each major family is its own commit on that branch, so it can still be reviewed or reverted alone with `git revert`. A major unit is a family (React with `react-dom`), not a single package. If the user explicitly asks for a given major in its own PR, cut that one branch from the default branch and say it may conflict on the lockfile. Create the major branch only when at least one major is applied, and if none is, there is no major PR.
 
 1. Before applying, show the breaking changes the release notes state (sources in `ecosystems.md`) and nothing else. Never add breaking changes from memory. If the notes are missing or thin, say so.
 2. Pause for the user's OK with `AskUserQuestion`, 2 to 4 options, for example apply, skip this one, stop. Never apply a major without it.
-3. Update, run the checks, commit: `chore(deps): update <family> to <major>`. On failure, set it aside as in Step 5 and delete the empty branch.
+3. Update, run the checks, commit: `chore(deps): update <family> to <major>`. On failure, set it aside as in Step 5 (the earlier commits on the branch stay; if it was the first major, delete the empty branch).
 
 ### Step 7: Hand over
 
-Return to the default branch and summarise each branch. Give ONE smoke-test list per PR, built from the changes you actually read, not from memory (for example "React 18 to 19: open the pages that use forms"), including checks that could not run. Offer to start the project's dev server with its own command and wait for the user's OK. Mention that new versions may run install scripts. Nothing has been pushed at this point.
+Return to the default branch and summarise each branch commit by commit. Give ONE smoke-test list per PR, grouped by commit, built from the changes you actually read, not from memory (for example "React 18 to 19: open the pages that use forms"), including checks that could not run. Offer to start the project's dev server with its own command and wait for the user's OK. Mention that new versions may run install scripts. Nothing has been pushed at this point.
 
 ### Step 8: Open the PRs
 
 1. List ALL the PRs that would be opened (title, branch, number of commits) and ask ONCE for confirmation before pushing any of them.
-2. After the OK, push each branch and open the PR against the default branch. Titles: `chore(deps): update dependencies` for the low-risk PR, `chore(deps): update <family> to <major>` for each major. Pass each body through a quoted heredoc:
+2. After the OK, push each branch and open its PR against the default branch. Titles: `chore(deps): update dependencies` for the low-risk PR, `chore(deps): update major dependencies` for the major PR. Pass each body through a quoted heredoc:
    ```bash
    git push -u origin "<branch>"
    TITLE=$(cat <<'EOF'
@@ -85,7 +91,7 @@ Return to the default branch and summarise each branch. Give ONE smoke-test list
    EOF
    )"
    ```
-3. Each body lists: its own changes (package, from to to, family); the checks that ran and their results; the checks NOT run; families set aside; pre-release versions skipped. State that the PRs are independent and that merging one can make another conflict (mostly the lockfile), suggest merging the low-risk PR first, and offer to rebase the others.
+3. Each body lists: the changes per commit (package, from to to, family, patch/minor/major); the checks that ran and their results; the checks NOT run; families set aside; pre-release versions skipped. In the major PR, say each major is a separate commit that can be reverted alone. State that the two PRs are independent and may conflict on the lockfile, suggest merging the low-risk PR first, and offer to rebase the major one (a single rebase).
 4. Never merge. Dependabot closes its own PRs once the update lands, so do not touch them.
 5. Finish with a report: what was done, what was set aside and why, what was not checked.
 
@@ -94,6 +100,7 @@ Return to the default branch and summarise each branch. Give ONE smoke-test list
 - **Never merge**, and never work on or push the default branch.
 - **Never apply a major** without the user's OK.
 - **Never take a pre-release** version.
+- **Two branches at most.** One for patches and minors, one for all the majors. Never one branch per major unless the user asks.
 - **Confirm before every outward action**: the one confirmation before pushing and opening the PRs.
 - **Update by name to an explicit version**, never a blanket update.
 - **Do not hide** a check that was skipped or could not run.
