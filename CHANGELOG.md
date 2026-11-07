@@ -5,6 +5,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.9.0] — 2026-11-07
+
+### Features
+- **update-dependencies**: asks which families to update with a question dialog (all, patch and minor only, or pick), and groups all the majors on one `chore/deps-major-<date>` branch with one commit per family, so there are at most two PRs and one rebase instead of one branch per major (#52)
+
+### Documentation
+- Add Oh My Pi install instructions (#51)
+
 ## [0.8.0] — 2026-10-31
 
 ### Features
