@@ -47,6 +47,26 @@ To test changes before pushing, add the working copy instead:
 
 A local path only works on your machine, so do not use it in a project's shared settings.
 
+### Oh My Pi
+
+[Oh My Pi](https://github.com/can1357/oh-my-pi) (`omp`) reads the Claude Code marketplace format, so the same catalog installs there. In `omp`:
+
+```
+/marketplace add soonland/nexus-marketplace
+/marketplace install nexus@nexus-marketplace
+```
+
+Or from a shell:
+
+```
+omp plugin marketplace add soonland/nexus-marketplace
+omp plugin install nexus@nexus-marketplace
+```
+
+Add `--scope project` to install for one project only. `nexus-mui` and `nexus-vitest` install the same way.
+
+Support here is best effort. Adding the marketplace and installing all three plugins is tested with `omp` 18.18.0. Running the skills and agents inside Oh My Pi is not tested, and they are written for Claude Code, so some steps may behave differently. Please [open an issue](https://github.com/soonland/nexus-marketplace/issues/new/choose) if one does.
+
 ## Getting started
 
 In the project repo you want to work on (the skills act on the repo of the folder Claude Code runs in):
